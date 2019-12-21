@@ -199,7 +199,7 @@
 		flex: 1;
 		align-items: center;
 		justify-content: center;
-		font-size: $uni-font-size-base;
+		font-size:34upx;
 	}
 
 

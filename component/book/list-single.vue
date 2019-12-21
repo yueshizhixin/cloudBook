@@ -1,6 +1,7 @@
 <template>
     <view>
-        <view v-for="(item,index) of 5" :key="index" style="padding-bottom: 50upx;position: relative;">
+        <view v-for="(item,index) of 5" :key="index" @tap="gotoItem(item)"
+              style="padding-bottom: 50upx;position: relative;">
 
             <image src="http://cdn.yueshizhixin.top/asset/head/59ff1851e7bce736a953bba2.jpg?imageView2/1/w/750/h/750" alt="" mode="widthFix"
                 style="border-radius: 14upx;"
@@ -14,12 +15,9 @@
                         国王陛下
                     </view>
                 </view>
-                <view style="float: right; padding: 0 20upx 20upx 0;">
-                    <view style="" class="cuIcon-search">
-                        22.1% 已读
-                    </view>
-                    <view style="">
-                        123 分钟
+                <view style="float: right; padding: 0 20upx 0 0;font-size: 28upx;margin-top: 54upx;">
+                    <view style="" class="cuIcon-time">
+                        123分钟 22.1%已读
                     </view>
                 </view>
             </view>
@@ -39,6 +37,11 @@
                 }
             }
         },
+        methods:{
+            gotoItem(item) {
+                this.navTo(`/view/book/item`)
+            }
+        }
     }
 </script>
 
