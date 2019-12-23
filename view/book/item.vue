@@ -110,24 +110,38 @@
                 }
             },
             contentTapHandler (e) {
-                var that = this;
-                let xMid = this.screenWidth / 2;
-                let yMid = this.screenHeight / 2;
+                console.log('this.toolShow',this.toolShow)
+                console.log('this.setShow',this.setShow)
+
+
+                this.toolShow = false;
+                this.setShow = false;
+
                 let x = e.detail.x;
                 let y = e.detail.y;
-                // 这里设置屏幕中心200区域为可点区域
-                // 点击可以弹出底部工具栏
-                if ((x > xMid - 200 && x < xMid + 200) && (y < yMid + 200 && y > yMid - 200)) {
+
+                //上一页、设置、下一页三等分
+                let areaWith=Math.floor(this.screenWidth/3)
+                if(x<areaWith){
+                    console.log('上一页')
+                }else if(x>areaWith*2){
+                    console.log('下一页')
+                }else{
                     this.toolShow = !this.toolShow;
                     this.setShow = false;
                 }
             },
             maskHandler () {
+                console.log('maskHandler')
                 this.sliderShow = false;
             },
-            sliderHandler () {},
+            sliderHandler () {
+                console.log('sliderHandler')
+            },
+
             functionBtnHandler (type) {
-                var that = this;
+                console.log('functionBtnHandler')
+                let that = this;
                 switch (type){
                     case 'chapters':
                         this.toolShow = false;
@@ -143,6 +157,7 @@
                         break;
                 }
             },
+
             /**
              * 主题变换按钮
              * 点击事件
@@ -179,6 +194,8 @@
                     this.currentTheme = this.dayTheme;
                 }
             },
+
+            //工具栏按钮点击
             bottomBtnHandler (type) {
                 switch (type){
                     case 'pre':
@@ -192,9 +209,13 @@
                         break;
                 }
             },
+
+            //设置里章节滑动条滑动
             toolSliderChangeHandler (value) {
+                this.$api.msg('该功能暂未开放')
                 console.log('我获取的值为:' + value);
             },
+
             // 监听电子书滑动事件
             scrollChange (e) {
                 let laterScrollTop = e.detail.scrollTop;
@@ -206,6 +227,7 @@
                 }
                 this.lastScrollY = laterScrollTop;
             },
+
             /**
              * 电子书阅读页面监听
              * 字体变化
@@ -214,6 +236,7 @@
                 this.fontSize = fontSize + 'px';
                 console.log('fontSize变化了:' + this.fontSize)
             },
+
             /**
              * 电子书阅读页面监听
              * 屏幕亮度变化

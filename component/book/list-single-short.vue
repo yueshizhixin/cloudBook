@@ -7,7 +7,7 @@
                 <view style="display: inline;color: #333;">
                     精选推荐
                 </view>
-                <view style="display: inline;float: right;color: #555;font-size: 26upx;padding-top: 14upx;">
+                <view @tap="navTo(`no`)" style="display: inline;float: right;color: #555;font-size: 26upx;padding-top: 14upx;">
                     更多
                     <view class="cuIcon-right" style="display: inline;"></view>
                 </view>

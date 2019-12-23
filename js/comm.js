@@ -1,9 +1,10 @@
-const f = () => {
-
-}
+import api from './method'
 
 const method = {
     navTo(url) {
+        if(url=='no'){
+            api.msg('该功能开发中')
+        }
         if (url.indexOf('/pages') === 0) {
             uni.switchTab({
                 url: url
@@ -33,5 +34,5 @@ const util = {
 }
 
 export default {
-    util
+    util,
 }

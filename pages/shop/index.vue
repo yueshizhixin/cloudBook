@@ -1,7 +1,7 @@
 <template>
     <view>
         <uni-nav-bar :title="title">
-            <view slot="right" class="cuIcon-search"></view>
+            <view slot="right" class="cuIcon-search" @tap="navTo(`no`)"></view>
         </uni-nav-bar>
 
         <view class="container">
