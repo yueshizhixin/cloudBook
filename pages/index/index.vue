@@ -35,7 +35,7 @@
 
 <style lang="scss">
     .content{
-        margin-top: 44px;
+        margin-top: 88upx;
         padding: 30upx;
     }
 </style>

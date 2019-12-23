@@ -1,5 +1,4 @@
 import app from 'vue'
-
-import comm from '@/jss/comm'
+import comm from '@/js/comm'
 
 app.use(comm.util);

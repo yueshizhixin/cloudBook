@@ -3,21 +3,19 @@
     "pages": [
         {
             "path": "pages/index/index",
-            "style": {
-//                "navigationBarTitleText": "我的书架"
-            }
+            "style": {}
         },
         {
             "path": "pages/shop/index",
-            "style": {
-                "navigationBarTitleText": "书城"
-            }
+            "style": {}
         },
         {
             "path": "pages/user/index",
-            "style": {
-                "navigationBarTitleText": "我的"
-            }
+            "style": {}
+        },
+        {
+            "path": "view/book/item",
+            "style": {}
         }
     ],
     "globalStyle": {

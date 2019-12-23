@@ -1,9 +1,9 @@
 <template>
-	<view >
-        <uni-nav-bar left-icon="back"  :title="title">
+    <view>
+        <uni-nav-bar left-icon="back" :title="title">
         </uni-nav-bar>
 
-	</view>
+    </view>
 </template>
 
 <script>
@@ -11,27 +11,25 @@
     import uniNavBar from "@/component/comm/uni-nav-bar/uni-nav-bar.vue"
     import listSingle from "@/component/book/list-single"
 
-	export default {
+    export default {
         components: {
-            uniNavBar,listSingle
+            uniNavBar, listSingle
         },
-		data() {
-			return {
-                title:'我的书架'
-			}
-		},
-		onLoad() {
+        data() {
+            return {
+                title: '书名'
+            }
+        },
+        onLoad() {
 
-		},
-		methods: {
-
-		}
-	}
+        },
+        methods: {}
+    }
 </script>
 
 <style lang="scss">
-    .content{
-        margin-top: 44px;
-        padding: 30upx;
+    .content {
+        margin-top: 88upx;
+        padding: 30 upx;
     }
 </style>
