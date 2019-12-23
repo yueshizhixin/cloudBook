@@ -29,9 +29,9 @@
                 title: '书名'
             }
         },
-        onLoad() {
-
-        },
+        onLoad(p) {},
+        onShow() {},
+        onReady() {},
         methods: {
             read() {
                 this.navTo(`item`)

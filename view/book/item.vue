@@ -44,6 +44,9 @@
         },
         data () {
             return {
+                /**
+                 * ---------自带的 start------------
+                 */
                 chapterList: [],
                 chapter: {},
                 sliderShow: false,
@@ -68,38 +71,74 @@
                     backgroundColor: '#f7f7f7',
                     color: '#333'
                 },
-                // 是否为夜间模式
-                // 默认值为false
+                // 是否为夜间模式 默认值为false
                 isNight: false,
-                lastScrollY: 0 // 用来判断电子书的滑动方向
+                lastScrollY: 0, // 用来判断电子书的滑动方向
+                /**
+                 * end
+                 */
+
+
+                // 阅读模式 page scroll
+                readMode:`page`,
+                textArr:[],//文字内容数组
             }
         },
-        onLoad (options) {
+        onLoad(p) {
+
+        },
+        onShow() {
+
+        },
+        onReady() {
             this.getEbookChapterList();
             this.calculateScreenSize();
         },
         methods: {
+
+            //计算文字数组
+            calcTextArr() {
+                if(!this.content || !this.fontSize){
+                    return;
+                }
+
+                // let len=this.$api.getTextLength(this.content,this.$api.getNumberFromStr(this.fontSize))
+                // console.log('文字长度',len)
+
+            },
+
+
+            /**
+             * ------------------自带的----------------
+             */
+
+            //计算屏幕大小
             calculateScreenSize () {
-                var info = uni.getSystemInfoSync();
-                console.log('相關信息:' + JSON.stringify(info));
+                let info = uni.getSystemInfoSync();
+                console.log('系统信息',JSON.stringify(info));
                 this.screenHeight = info.safeArea.height;
                 this.screenWidth = info.safeArea.width;
             },
+
+            //获取电子书章节
             getEbookChapterList () {
                 this.chapterList = Json.chapterList;
-                var chapter = this.chapterList[0];
+                let chapter = this.chapterList[0];
                 this.chapter = chapter;
                 this.chapterTitle = chapter.title;
                 this.getChapterContent(chapter.number);
             },
+
+            //获取本章节内容
             getChapterContent (num) {
                 this.content = Json.chapterContent.content;
+                this.calcTextArr()
             },
-            chapterItemHandler (index) {
-                var chapter = this.chapterList[index];
-                this.$api.msg('章节ID:' + chapter.number);
-            },
+
+
+            //设置菜单上一章下一章
             chapterBtnHandler (btnType) {
+                console.log('chapterBtnHandler')
                 switch (btnType) {
                     case 'pre':
                         this.$api.msg('上一章按钮');
@@ -109,13 +148,9 @@
                         break;
                 }
             },
+
+            //屏幕点击
             contentTapHandler (e) {
-                console.log('this.toolShow',this.toolShow)
-                console.log('this.setShow',this.setShow)
-
-
-                this.toolShow = false;
-                this.setShow = false;
 
                 let x = e.detail.x;
                 let y = e.detail.y;
@@ -123,22 +158,28 @@
                 //上一页、设置、下一页三等分
                 let areaWith=Math.floor(this.screenWidth/3)
                 if(x<areaWith){
-                    console.log('上一页')
+                    if(this.toolShow || this.setShow){
+                        this.toolShow = false;
+                        this.setShow = false;
+                    }else{
+                        console.log('上一页')
+                    }
                 }else if(x>areaWith*2){
-                    console.log('下一页')
+                    if(this.toolShow || this.setShow){
+                        this.toolShow = false;
+                        this.setShow = false;
+                    }else{
+                        console.log('下一页')
+                    }
                 }else{
                     this.toolShow = !this.toolShow;
                     this.setShow = false;
                 }
             },
-            maskHandler () {
-                console.log('maskHandler')
-                this.sliderShow = false;
-            },
-            sliderHandler () {
-                console.log('sliderHandler')
-            },
 
+            /**
+             * 目录点击章节跳转 start
+             */
             functionBtnHandler (type) {
                 console.log('functionBtnHandler')
                 let that = this;
@@ -157,11 +198,24 @@
                         break;
                 }
             },
+            chapterItemHandler (index) {
+                console.log('chapterItemHandler',index)
+                let chapter = this.chapterList[index];
+                this.$api.msg('章节ID:' + chapter.number);
+            },
+            sliderHandler () {
+                console.log('sliderHandler')
+            },
+            maskHandler () {
+                console.log('maskHandler')
+                this.sliderShow = false;
+            },
 
             /**
-             * 主题变换按钮
-             * 点击事件
+             * end
              */
+
+            //主题变换按钮 点击事件
             themeHandler (isNight) {
                 this.isNight = isNight;
                 if (isNight) {
