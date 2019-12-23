@@ -16,6 +16,10 @@
         {
             "path": "view/book/item",
             "style": {}
+        },
+        {
+            "path": "view/book/detail",
+            "style": {}
         }
     ],
     "globalStyle": {

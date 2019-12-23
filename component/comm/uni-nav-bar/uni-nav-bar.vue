@@ -158,6 +158,10 @@
 		line-height: $nav-height;
 		font-size: 16px;
 		// background-color: #ffffff;
+
+		//#ifdef APP-PLUS
+		padding-top: 30upx;
+		//#endif
 	}
 
 	.uni-navbar__header-btns {

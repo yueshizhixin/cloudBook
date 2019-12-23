@@ -4,7 +4,7 @@
             <view slot="right" class="cuIcon-search"></view>
         </uni-nav-bar>
 
-        <view class="content">
+        <view class="container">
             <list-single></list-single>
         </view>
 	</view>
@@ -34,8 +34,4 @@
 </script>
 
 <style lang="scss">
-    .content{
-        margin-top: 88upx;
-        padding: 30upx;
-    }
 </style>

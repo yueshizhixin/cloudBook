@@ -17,4 +17,17 @@
     uni-image{
         width: 100%;
     }
+
+    .container{
+        /*#ifdef APP-PLUS*/
+        /*加uni-nav-bar的 .uni-navbar__header{padding-top:30upx}*/
+        padding: 60upx 30upx 30upx 30upx;
+        padding-top: 148upx;/*+88(header)*/
+        /*#endif*/
+        /*#ifndef APP-PLUS*/
+        padding: 30upx;
+        padding-top: 118upx;/*+88(header)*/
+        /*#endif*/
+        position: relative;
+    }
 </style>

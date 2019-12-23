@@ -1,12 +1,26 @@
 <template>
-	<view class="content">
-	</view>
+    <view>
+        <uni-nav-bar :title="title">
+            <view slot="right" class="cuIcon-search"></view>
+        </uni-nav-bar>
+
+        <view class="container">
+            <list-single-short></list-single-short>
+        </view>
+    </view>
 </template>
 
 <script>
-	export default {
+    import uniNavBar from "@/component/comm/uni-nav-bar/uni-nav-bar.vue"
+    import listSingleShort from "@/component/book/list-single-short"
+
+    export default {
+        components: {
+            uniNavBar,listSingleShort
+        },
 		data() {
 			return {
+                title:'书城'
 			}
 		},
 		onLoad() {
@@ -19,7 +33,4 @@
 </script>
 
 <style lang="scss">
-	.content{
-
-	}
 </style>
