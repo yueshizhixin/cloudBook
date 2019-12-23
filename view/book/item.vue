@@ -1,31 +1,34 @@
 <template>
-    <view class="container">
-        <scroll-view :style="{'background-color': currentTheme.backgroundColor}" @click="contentTapHandler" @scroll="scrollChange" class="scroll" scroll-y="true" >
-            <view class="title-section">
-                <text class="title" :style="{'color': currentTheme.color}">{{chapterTitle}}</text>
+    <view>
+        <view class="container">
+            <scroll-view :style="{'background-color': currentTheme.backgroundColor}" @click="contentTapHandler" @scroll="scrollChange" class="scroll" scroll-y="true" >
+                <view class="title-section">
+                    <text class="title" :style="{'color': currentTheme.color}">{{chapterTitle}}</text>
+                </view>
+                <view class="content-section">
+                    <text class="content" :style="{'font-size': fontSize, 'color': currentTheme.color}">{{content}}</text>
+                    <!-- <u-parse :content="content"/> -->
+                </view>
+                <view class="bottom-section">
+                    <button @click="bottomBtnHandler('pre')" class="bottom-btn" :class="{'bottom-night-btn': isNight}" type="primary">上一章</button>
+                    <button @click="bottomBtnHandler('chapters')" class="bottom-btn" :class="{'bottom-night-btn': isNight}" type="primary">目录</button>
+                    <button @click="bottomBtnHandler('next')" class="bottom-btn" :class="{'bottom-night-btn': isNight}" type="primary">下一章</button>
+                </view>
+            </scroll-view>
+            <view @click="maskHandler" class="slider-mask" :class="{'slider-show-mask' :sliderShow}">
+                <view @click="sliderHandler" class="slider-section" :class="{'slider-show-section' :sliderShow}">
+                    <ss-sliderbar :isNightTheme="isNight" @chapterItemTap="chapterItemHandler" :currentChapter="currentChapter" :chapterList="chapterList"></ss-sliderbar>
+                </view>
             </view>
-            <view class="content-section">
-                <text class="content" :style="{'font-size': fontSize, 'color': currentTheme.color}">{{content}}</text>
-                <!-- <u-parse :content="content"/> -->
+            <view class="tool-section" :class="{'tool-show-section' :toolShow}">
+                <ss-toolbar @toolSliderChange="toolSliderChangeHandler" :chapter="chapter" @themeTap="themeHandler" @functionBtnTap="functionBtnHandler" @chapterBtnTap="chapterBtnHandler"></ss-toolbar>
             </view>
-            <view class="bottom-section">
-                <button @click="bottomBtnHandler('pre')" class="bottom-btn" :class="{'bottom-night-btn': isNight}" type="primary">上一章</button>
-                <button @click="bottomBtnHandler('chapters')" class="bottom-btn" :class="{'bottom-night-btn': isNight}" type="primary">目录</button>
-                <button @click="bottomBtnHandler('next')" class="bottom-btn" :class="{'bottom-night-btn': isNight}" type="primary">下一章</button>
+            <view class="set-section" :class="{'set-show-section' :setShow}">
+                <ss-setbar :isNightTheme="isNight" @brightChange="brightChangeHandler" @fontSizeChange="fontSizeChangeHandler"></ss-setbar>
             </view>
-        </scroll-view>
-        <view @click="maskHandler" class="slider-mask" :class="{'slider-show-mask' :sliderShow}">
-            <view @click="sliderHandler" class="slider-section" :class="{'slider-show-section' :sliderShow}">
-                <ss-sliderbar :isNightTheme="isNight" @chapterItemTap="chapterItemHandler" :currentChapter="currentChapter" :chapterList="chapterList"></ss-sliderbar>
-            </view>
-        </view>
-        <view class="tool-section" :class="{'tool-show-section' :toolShow}">
-            <ss-toolbar @toolSliderChange="toolSliderChangeHandler" :chapter="chapter" @themeTap="themeHandler" @functionBtnTap="functionBtnHandler" @chapterBtnTap="chapterBtnHandler"></ss-toolbar>
-        </view>
-        <view class="set-section" :class="{'set-show-section' :setShow}">
-            <ss-setbar :isNightTheme="isNight" @brightChange="brightChangeHandler" @fontSizeChange="fontSizeChangeHandler"></ss-setbar>
         </view>
     </view>
+
 </template>
 
 <script>
