@@ -64,6 +64,7 @@ const method = {
         }
     },
 
+    //公共请求
     async httpRequest(url, data, type, header) {
         try {
             return new Promise((resolve, reject) => {
@@ -71,10 +72,12 @@ const method = {
                     url: conf.api + url,
                     data: data,
                     header: header,
+                    method:type,
                     success: (res) => {
                         resolve(res.data)
                     },
-                    error: (err) => {
+                    error: (e) => {
+                        console.log(e)
                         reject({
                             code: 200,
                             ok: 0,
@@ -84,6 +87,7 @@ const method = {
                 });
             })
         } catch (e) {
+            console.log(e)
             return {
                 code: 200,
                 ok: 0,
@@ -92,6 +96,9 @@ const method = {
         }
     },
 
+    /**
+     * http请求
+     */
     get(url, data = {}, type, header = {
         "content-type": "application/x-www-form-urlencoded"
     }) {
@@ -102,6 +109,9 @@ const method = {
     }) {
         return method.httpRequest(url, data, 'POST', header)
     }
+    /**
+     * end
+     */
 };
 
 const util = {

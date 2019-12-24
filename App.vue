@@ -29,6 +29,11 @@
         min-height: calc(100vh - 100upx) !important;
     }
 
+    //导航栏icon大小
+    .tabbar-icon-size{
+        font-size: 40upx;
+    }
+
     /*导航栏下*/
     .container{
         /*#ifdef APP-PLUS*/
@@ -42,4 +47,7 @@
         /*#endif*/
         position: relative;
     }
+
+
+
 </style>

@@ -6,6 +6,14 @@ const msg = (title) => {
         mask: false,
     });
 }
+const msg2 = (title) => {
+    uni.showToast({
+        title: `请按规则填写`+title,
+        icon: `none`,
+        duration: 1500,
+        mask: false,
+    });
+}
 
 const getTextLength = (text, size) => {
     if (!text) {
@@ -41,5 +49,5 @@ const getNumberFromStr=(str)=>{
 }
 
 export default {
-    msg, getTextLength,getNumberFromStr,
+    msg, msg2,getTextLength,getNumberFromStr,
 }

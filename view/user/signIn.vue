@@ -1,13 +1,13 @@
 <template>
     <view class="page-comm">
         <uni-nav-bar left-icon="back" @clickLeft="navBack()" :title="title">
-            <view slot="right" class="cuIcon-add" style="font-size: 40upx;" @tap="navTo(`no`)"></view>
+            <view slot="right" class="cuIcon-add tabbar-icon-size"  @tap="navTo(`no`)"></view>
         </uni-nav-bar>
 
         <view class="container">
             <view class="form">
                 <input v-model="user.phone" type="text" placeholder="账号 | 手机号或邮箱">
-                <input v-model="user.pwd" class="no-first" type="text" placeholder="密码 | 6-12位数字字母组合">
+                <input v-model="user.pwd" class="no-first" type="password" placeholder="密码 | 6-12位数字字母组合">
             </view>
 
             <view class="btn" @tap="sign">
@@ -51,7 +51,19 @@
         onReady() {},
         methods: {
             sign() {
-                if(this.user.phone)
+                if(!this.$reg.phone.test(this.user.phone)){
+                    this.$api.msg2('手机号')
+                    return;
+                }
+                if(!this.$reg.pwd.test(this.user.pwd)){
+                    this.$api.msg2('密码')
+                    return;
+                }
+                this.post(`/api/user/tag=signIn`,this.user).then((d)=>{
+                    console.log(d)
+                }).catch(e=>{
+                    console.log(e)
+                })
             },
             read() {
                 this.navTo(`item`)
