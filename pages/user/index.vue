@@ -1,6 +1,6 @@
 <template>
 
-    <view>
+    <view class="page-comm">
         <!--标题栏-->
 
         <view >
@@ -18,13 +18,9 @@
                     <image @tap="navTo(`no`)" src="http://cdn.yueshizhixin.top/asset/bg/e365d2e9a70828414ff0ff30b6f9f4df.jpg?imageView2/1/w/300/h/300"
                         class="img"
                     >
-
                     </image>
                 </view>
-
-
             </view>
-
         </view>
     </view>
 
@@ -36,9 +32,16 @@
 			return {
 			}
 		},
-        onLoad(p) {},
-        onShow() {},
-        onReady() {},
+        onLoad(p) {
+            this.authorCheck()
+        },
+        onShow() {
+		    console.log('onShow')
+            this.authorCheck()
+        },
+        onReady() {
+		    console.log('onReady')
+        },
 		methods: {
 
 		}

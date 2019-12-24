@@ -13,12 +13,18 @@
             "path": "pages/user/index",
             "style": {}
         },
+
         {
             "path": "view/book/item",
             "style": {}
         },
         {
             "path": "view/book/detail",
+            "style": {}
+        },
+
+        {
+            "path": "view/user/signIn",
             "style": {}
         }
     ],

@@ -18,6 +18,14 @@
         width: 100%;
     }
 
+
+
+    /*根view*/
+    .page-comm{
+        background-color: $color_bg;
+    }
+
+    /*导航栏下*/
     .container{
         /*#ifdef APP-PLUS*/
         /*加uni-nav-bar的 .uni-navbar__header{padding-top:30upx}*/

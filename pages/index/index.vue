@@ -1,5 +1,5 @@
 <template>
-	<view >
+	<view class="page-comm">
         <uni-nav-bar :title="title">
             <view slot="right" class="cuIcon-search" @tap="navTo(`no`)"></view>
         </uni-nav-bar>
