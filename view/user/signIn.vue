@@ -6,11 +6,11 @@
 
         <view class="container">
             <view class="form">
-                <input type="text" placeholder="账号 | 手机号或邮箱">
-                <input type="text" placeholder="密码 | 6-12位数字字母组合" style="margin-top: 20upx;">
+                <input v-model="user.phone" type="text" placeholder="账号 | 手机号或邮箱">
+                <input v-model="user.pwd" class="no-first" type="text" placeholder="密码 | 6-12位数字字母组合">
             </view>
 
-            <view class="btn">
+            <view class="btn" @tap="sign">
                 登录
             </view>
             <view class="tip" @tap="navTo(`no`)">
@@ -38,7 +38,11 @@
         },
         data() {
             return {
-                title: '登录'
+                title: '登录',
+                user:{
+                    phone:'',
+                    pwd:'',
+                }
             }
         },
         onLoad(p) {
@@ -46,6 +50,9 @@
         onShow() {},
         onReady() {},
         methods: {
+            sign() {
+                if(this.user.phone)
+            },
             read() {
                 this.navTo(`item`)
             }
@@ -62,6 +69,9 @@
             input{
                 border-bottom: 2upx solid #ddd;height: 50upx;padding: 10upx 0;line-height: 30upx;
             }
+            .no-first{
+                margin-top: 20upx;
+            }
         }
         .btn{
             width: calc(100% - 60upx);
@@ -71,7 +81,7 @@
             padding: 20upx 0;
             height: 40upx;
             line-height: 40upx;
-            margin-top: 110upx;
+            margin-top: 100upx;
             margin-left: 30upx;
             border-radius: 10upx;
         }

@@ -1,6 +1,9 @@
 import app from 'vue'
-import comm from '@/js/comm'
-import api from '@/js/method'
+import method from '@/js/method'
+import api from '@/js/api'
+import conf from './conf'
 
-app.use(comm.util);
+app.use(method.util);
 app.prototype.$api=api;
+app.prototype.$conf=conf;
+

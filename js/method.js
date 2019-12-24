@@ -1,45 +1,122 @@
-const msg = (title) => {
-    uni.showToast({
-        title: title || `云之书欢迎你`,
-        icon: `none`,
-        duration: 1500,
-        mask: false,
-    });
-}
+import api from './api'
+import conf from './conf'
 
-const getTextLength = (text, size) => {
-    if (!text) {
-        return 0;
-    }
-    let textLength = 0;
-    let l = 0;
-    for (let j = 0; j < text.length; j++) {
-        let t = text.substr(j, 1);
-        if (/[\u4e00-\u9fa5]/.test(t)) {
-            l += 1;
+const method = {
+
+    //缓存数据 默认同步
+    getDate(item, sync = true) {
+        if (!item.key) return null;
+        if (sync) { //同步
+            return uni.getStorageSync(item.key)
+        } else { //异步
+            return uni.getStorage(item)
+        }
+    },
+    //缓存数据 默认同步
+    setData(item, sync = true) {
+        if (!item.key || !item.data) return null;
+        if (sync) { //同步
+            return uni.setStorageSync(item.key, item.data)
+        } else { //异步
+            return uni.setStorage(item)
+        }
+    },
+    //页面跳转
+    navTo(url) {
+        if (url == 'no') {
+            api.msg('该功能开发中')
+            return;
+        }
+        if (url.indexOf('/pages') === 0) {
+            uni.switchTab({
+                url: url
+            })
         } else {
-            if (/[A-Za-z0-9]/.test(t)) {
-                l += 0.75;
+            uni.navigateTo({
+                url: url
+            })
+        }
+    },
+    //跳转首页
+    navToIndex() {
+        method.navTo(`/pages/index/index`)
+    },
+    //页面回退
+    navBack() {
+        let pages = getCurrentPages();
+        if (pages.length > 1) {
+            //是登录页
+            if (pages[pages.length - 1].route == `view/user/signIn`) {
+                method.navToIndex()
             } else {
-                let c = text.charAt(j);
-                if (/^[\u0000-\u00ff]$/.test(c)) //匹配双字节
-                {
-                    l += 0.2;
-                } else {
-                    l += 1;
-                }
+                uni.navigateBack()
+            }
+        } else {
+            method.navToIndex()
+        }
+    },
+    //权限检测
+    authorCheck() {
+        let user = method.getDate({key: 'user'})
+        console.log('user', user)
+        if (!user || user.id == 0) {
+            method.navTo(`/view/user/signIn`)
+        }
+    },
+
+    async httpRequest(url, data, type, header) {
+        try {
+            return new Promise((resolve, reject) => {
+                uni.request({
+                    url: conf.api + url,
+                    data: data,
+                    header: header,
+                    success: (res) => {
+                        resolve(res.data)
+                    },
+                    error: (err) => {
+                        reject({
+                            code: 200,
+                            ok: 0,
+                            msg: '请求失败',
+                        })
+                    }
+                });
+            })
+        } catch (e) {
+            return {
+                code: 200,
+                ok: 0,
+                msg: '请求失败',
             }
         }
-    }
-    textLength = l * size;
-    return textLength
-}
+    },
 
-const getNumberFromStr=(str)=>{
-    let reg = /[\d]/g;
-    return str.match(reg).join("");
-}
+    get(url, data = {}, type, header = {
+        "content-type": "application/x-www-form-urlencoded"
+    }) {
+        return method.httpRequest(url, data, 'GET', header)
+    },
+    post(url, data = {}, type, header = {
+        "content-type": "application/x-www-form-urlencoded"
+    }) {
+        return method.httpRequest(url, data, 'POST', header)
+    }
+};
+
+const util = {
+    install: (Vue) => {
+        Vue.prototype.navTo = method.navTo
+        Vue.prototype.navBack = method.navBack
+        Vue.prototype.navToIndex = method.navToIndex
+        Vue.prototype.get = method.get
+        Vue.prototype.post = method.post
+
+        Vue.prototype.authorCheck = method.authorCheck
+
+    }
+};
 
 export default {
-    msg, getTextLength,getNumberFromStr,
+    util,
 }
