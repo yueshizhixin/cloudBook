@@ -23,6 +23,10 @@
     /*根view*/
     .page-comm{
         background-color: $color_bg;
+        min-height: 100vh;
+    }
+    .tabber-page{
+        min-height: calc(100vh - 100upx) !important;
     }
 
     /*导航栏下*/

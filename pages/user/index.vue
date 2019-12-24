@@ -1,6 +1,6 @@
 <template>
 
-    <view class="page-comm">
+    <view class="page-comm tabber-page">
         <!--标题栏-->
 
         <view >
