@@ -16,20 +16,30 @@
 
     export default {
         components: {
-            uniNavBar,listSingleShort
+            uniNavBar, listSingleShort
         },
-		data() {
-			return {
-                title:'书城'
-			}
-		},
-		onLoad() {
-
-		},
-		methods: {
-
-		}
-	}
+        data() {
+            return {
+                title: '书城'
+            }
+        },
+        onLoad(p) {
+        },
+        onShow() {
+        },
+        onReady() {
+            this.getShopBookList()
+        },
+        methods: {
+            getShopBookList() {
+                this.get(`/api/book`, {}).then(d => {
+                    console.log(d)
+                }).catch(e => {
+                    console.log(e)
+                })
+            }
+        }
+    }
 </script>
 
 <style lang="scss">

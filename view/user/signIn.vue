@@ -1,7 +1,7 @@
 <template>
     <view class="page-comm">
         <uni-nav-bar left-icon="back" @clickLeft="navBack()" :title="title">
-            <view slot="right" class="cuIcon-add tabbar-icon-size"  @tap="navTo(`no`)"></view>
+            <view slot="right" class="cuIcon-add tabbar-icon-size" @tap="navTo(`no`)"></view>
         </uni-nav-bar>
 
         <view class="container">
@@ -32,6 +32,7 @@
 
 <script>
     import uniNavBar from "@/component/comm/uni-nav-bar/uni-nav-bar.vue"
+
     export default {
         components: {
             uniNavBar
@@ -39,29 +40,42 @@
         data() {
             return {
                 title: '登录',
-                user:{
-                    phone:'',
-                    pwd:'',
+                user: {
+                    phone: '',
+                    pwd: '',
+                    action: 'in',
                 }
             }
         },
         onLoad(p) {
         },
-        onShow() {},
-        onReady() {},
+        onShow() {
+        },
+        onReady() {
+        },
         methods: {
             sign() {
-                if(!this.$reg.phone.test(this.user.phone)){
+                if (!this.$reg.phone.test(this.user.phone)) {
                     this.$api.msg2('手机号')
                     return;
                 }
-                if(!this.$reg.pwd.test(this.user.pwd)){
+                if (!this.$reg.pwd.test(this.user.pwd)) {
                     this.$api.msg2('密码')
                     return;
                 }
-                this.post(`/api/user/tag=signIn`,this.user).then((d)=>{
-                    console.log(d)
-                }).catch(e=>{
+                this.post(`/api/user/tag=sign`, this.user).then((data) => {
+                    console.log('登录', data)
+                    this.$api.msg(data.msg)
+                    if (data.ok === 0) {
+                        return;
+                    }
+                    this.setData({
+                        key: 'user',
+                        data: data.data,
+                    })
+                    this.navBack()
+
+                }).catch(e => {
                     console.log(e)
                 })
             },
@@ -75,17 +89,24 @@
 
 <style lang="scss">
 
-    .container{
-        .form{
-            margin-top: 60upx;padding: 0 30upx;
-            input{
-                border-bottom: 2upx solid #ddd;height: 50upx;padding: 10upx 0;line-height: 30upx;
+    .container {
+        .form {
+            margin-top: 60upx;
+            padding: 0 30upx;
+
+            input {
+                border-bottom: 2upx solid #ddd;
+                height: 50upx;
+                padding: 10upx 0;
+                line-height: 30upx;
             }
-            .no-first{
+
+            .no-first {
                 margin-top: 20upx;
             }
         }
-        .btn{
+
+        .btn {
             width: calc(100% - 60upx);
             background-color: $color-primary;
             color: #fff;
@@ -97,7 +118,8 @@
             margin-left: 30upx;
             border-radius: 10upx;
         }
-        .tip{
+
+        .tip {
             width: calc(100% - 60upx);
             color: #999;
             text-align: right;
@@ -107,13 +129,15 @@
             margin-left: 30upx;
             font-size: 26upx;
         }
-        .line{
+
+        .line {
             width: 100%;
             text-align: center;
             padding: 20upx 0;
             height: 10upx;
             border-bottom: rgba(0, 0, 0, 0.1) solid 2upx;
-            .text{
+
+            .text {
                 font-size: 30upx;
                 color: #666;
                 line-height: 30upx;
@@ -127,14 +151,16 @@
 
             }
         }
-        .other{
+
+        .other {
             width: calc(100% - 60upx);
             color: $color-primary;
             text-align: center;
             padding: 20upx 0;
             margin-top: 30upx;
             margin-left: 90upx;
-            .icon{
+
+            .icon {
                 display: inline;
                 font-size: 70upx;
                 padding-right: 150upx;
@@ -142,14 +168,14 @@
         }
     }
 
-    .btn-container{
+    .btn-container {
         position: absolute;
         bottom: 0;
         left: 0;
         width: 750upx;
         height: 80upx;
 
-        .btn{
+        .btn {
             height: 100%;
             background-color: $color-primary;
             color: white;

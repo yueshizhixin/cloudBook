@@ -36,11 +36,9 @@
             this.authorCheck()
         },
         onShow() {
-		    console.log('onShow')
             this.authorCheck()
         },
         onReady() {
-		    console.log('onReady')
         },
 		methods: {
 
@@ -94,7 +92,7 @@
 	}
     .bg:after{
         /*border: solid 2upx black;*/
-        background-color: white;
+        background-color: $color_bg;
         z-index: 99;
         position: absolute;
         top:400upx;

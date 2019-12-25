@@ -41,13 +41,21 @@ const method = {
     navToIndex() {
         method.navTo(`/pages/index/index`)
     },
+    navToSign() {
+        method.navTo(`/view/user/signIn`)
+    },
     //页面回退
     navBack() {
         let pages = getCurrentPages();
         if (pages.length > 1) {
             //是登录页
             if (pages[pages.length - 1].route == `view/user/signIn`) {
-                method.navToIndex()
+                //是否登录
+                if (method.getDate({key: 'user'})) {
+                    uni.navigateBack()
+                } else {
+                    method.navToIndex()
+                }
             } else {
                 uni.navigateBack()
             }
@@ -58,10 +66,16 @@ const method = {
     //权限检测
     authorCheck() {
         let user = method.getDate({key: 'user'})
-        console.log('user', user)
         if (!user || user.id == 0) {
-            method.navTo(`/view/user/signIn`)
+            method.navToSign()
         }
+    },
+    //登出
+    signOut() {
+        method.setData({
+            key: 'user',
+            data: null,
+        })
     },
 
     //公共请求
@@ -72,12 +86,31 @@ const method = {
                     url: conf.api + url,
                     data: data,
                     header: header,
-                    method:type,
+                    method: type,
                     success: (res) => {
-                        resolve(res.data)
+                        if (res.statusCode === 200) {
+                            let data = JSON.parse(res.data)
+                            if (data.code === 401) {
+                                console.log('httpRequest 401')
+                                method.navToSign()
+                            } else if (data.code === 403) {
+                                console.log('httpRequest 403')
+                                api.msg(`无权限`)
+                                setTimeout(method.navToIndex(), 500)
+                            } else if (data.code === 500) {
+                                console.log('httpRequest 500')
+                                api.msg('网络连接错误')
+                                setTimeout(method.navToIndex(), 500)
+                            } else if (data.code === 200) {
+                                resolve(data)
+                            }
+                        } else {
+                            console.log('httpRequest status<>200', res)
+                            api.msg('请求失败')
+                        }
                     },
                     error: (e) => {
-                        console.log(e)
+                        console.log('httpRequest error', e)
                         reject({
                             code: 200,
                             ok: 0,
@@ -87,7 +120,7 @@ const method = {
                 });
             })
         } catch (e) {
-            console.log(e)
+            console.log('httpRequest error catch', e)
             return {
                 code: 200,
                 ok: 0,
@@ -123,6 +156,10 @@ const util = {
         Vue.prototype.post = method.post
 
         Vue.prototype.authorCheck = method.authorCheck
+        Vue.prototype.signOut = method.signOut
+        Vue.prototype.getDate = method.getDate
+        Vue.prototype.setData = method.setData
+
 
     }
 };
