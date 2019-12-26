@@ -18,7 +18,7 @@ const method = {
         if (sync) { //同步
             uni.setStorageSync(item.key, item.data)
         } else { //异步
-            return uni.setStorage(item)
+            uni.setStorage(item)
         }
     },
     //页面跳转

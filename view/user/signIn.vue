@@ -152,7 +152,7 @@
                 height: 30upx;
                 padding: 0upx 10upx;
                 padding-top: 14upx;
-                background-color: $color_bg;
+                background-color: $color-bg;
                 /*border: black solid 2upx;*/
                 width: 260upx;
                 margin-left: 215upx;

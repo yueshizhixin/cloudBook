@@ -26,8 +26,13 @@
                     "path": "book/detail",
                     "style": {}
                 },
+
                 {
                     "path": "user/signIn",
+                    "style": {}
+                },
+                {
+                    "path": "user/setting",
                     "style": {}
                 }
             ]

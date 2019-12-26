@@ -6,7 +6,7 @@
         <view >
             <view class="bg">
                 <view class="icon">
-                    <view @tap="navTo(`no`)" class="cuIcon-settings"></view>
+                    <view @tap="navTo(`/view/user/setting`)" class="cuIcon-settings"></view>
                 </view>
                 <view class="name" @tap="navTo(`no`)">
                     大乘期修士
@@ -48,9 +48,6 @@
 
 <style lang="scss">
 	.bg{
-        /*#ifdef APP-PLUS*/
-        padding-top: 30upx;
-        /*#endif*/
 
         z-index: 1;
         position: relative;
@@ -61,7 +58,6 @@
         text-align: center;
         font-size: 44upx;
         .icon{
-            /*width: 100%;*/
             text-align: right;
             display: block;
             padding: 30upx 30upx 0 0;
@@ -92,7 +88,7 @@
 	}
     .bg:after{
         /*border: solid 2upx black;*/
-        background-color: $color_bg;
+        background-color: $color-bg;
         z-index: 99;
         position: absolute;
         top:400upx;

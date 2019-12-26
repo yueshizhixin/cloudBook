@@ -14,16 +14,18 @@
 
 <style lang="scss">
     @import "static/css/icon.css";
+
     uni-image{
         width: 100%;
     }
 
-
-
     /*根view*/
     .page-comm{
-        background-color: $color_bg;
+        background-color: $color-bg;
         min-height: 100vh;
+    }
+    .page-comm.bg-grey{
+        background-color: $color-bg-grey;
     }
     .tabber-page{
         min-height: calc(100vh - 100upx) !important;
@@ -36,17 +38,18 @@
 
     /*导航栏下*/
     .container{
-        /*#ifdef APP-PLUS*/
-        /*加uni-nav-bar的 .uni-navbar__header{padding-top:30upx}*/
-        padding: 60upx 30upx 30upx 30upx;
-        padding-top: 148upx;/*+88(header)*/
-        /*#endif*/
-        /*#ifndef APP-PLUS*/
         padding: 30upx;
-        padding-top: 118upx;/*+88(header)*/
-        /*#endif*/
+        padding-top: calc(118upx + #{$height-app-top});/*30+88(header)*/
         position: relative;
     }
+    .container.no-padding-top{
+        padding-top: calc(88upx + #{$height-app-top});/*30+88(header)*/
+    }
+    .container.no-padding-side{
+        padding-left: 0;
+        padding-right: 0;
+    }
+
 
 
 

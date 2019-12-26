@@ -13,8 +13,15 @@
  */
 
 $color-primary:#fb7299;
-$color_bg:#fafafa;
+$color-bg:#fafafa;
+$color-bg-grey: #f4f4f4;
+
+/*#ifdef APP-PLUS*/
 $height-app-top:30upx;
+/*#endif */
+/*#ifndef APP-PLUS*/
+$height-app-top:0upx;
+/*#endif */
 
 /* 颜色变量 */
 
