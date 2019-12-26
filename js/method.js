@@ -96,11 +96,11 @@ const method = {
                             } else if (data.code === 403) {
                                 console.log('httpRequest 403')
                                 api.msg(`无权限`)
-                                setTimeout(method.navToIndex(), 500)
+                                setTimeout(method.navToIndex, 500)
                             } else if (data.code === 500) {
                                 console.log('httpRequest 500')
                                 api.msg('网络连接错误')
-                                setTimeout(method.navToIndex(), 500)
+                                setTimeout(method.navToIndex, 500)
                             } else if (data.code === 200) {
                                 resolve(data)
                             }
