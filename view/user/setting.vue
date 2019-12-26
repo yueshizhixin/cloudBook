@@ -78,9 +78,6 @@
 </script>
 
 <style lang="scss">
-    .page-comm{
-        background-color: $color-bg-grey;
-    }
 
     .module{
         font-size: 34upx;
