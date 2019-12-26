@@ -4,7 +4,7 @@
         </uni-nav-bar>
 
         <view class="container no-padding-top no-padding-side">
-            <view class="module">
+            <view class="module" @tap="navTo(`no`)">
                 <view class="item">
                     <view class="cuIcon-my icon"></view>
                     <view class="text">个人资料</view>
@@ -19,6 +19,8 @@
                     <view class="cuIcon-phone icon"></view>
                     <view class="text">手机绑定</view>
                     <view class="cuIcon-right icon-right"></view>
+                    <view class="icon-right icon-right-no-first">13127043375</view>
+
                 </view>
                 <view class="item">
                     <view class="cuIcon-mail icon"></view>
@@ -27,13 +29,13 @@
                 </view>
             </view>
 
-            <view class="module">
+            <view class="module" @tap="navTo(`no`)">
                 <view class="item">
                     <view class="cuIcon-down icon"></view>
                     <view class="text">检查更新</view>
-                    <view class="cuIcon-right icon-right">
+                    <view class="cuIcon-right icon-right"></view>
+                    <view class="icon-right icon-right-no-first">v0.0.1</view>
 
-                    </view>
                 </view>
                 <view class="item">
                     <view class="cuIcon-close icon"></view>
@@ -43,7 +45,7 @@
             </view>
 
             <view class="module">
-                <view class="btn">我要退出</view>
+                <view class="btn" @tap="signOut">我要退出</view>
             </view>
 
         </view>
@@ -52,6 +54,7 @@
 </template>
 
 <script>
+    import uniNavBar from "@/component/comm/uni-nav-bar/uni-nav-bar.vue"
     import uniNavBar from "@/component/comm/uni-nav-bar/uni-nav-bar.vue"
 
     export default {
@@ -72,6 +75,34 @@
         onReady() {
         },
         methods: {
+            //退出
+            signOut() {
+                // let data={
+                //     phone: '',
+                //     pwd: '',
+                //     action: 'out'
+                // }
+                //
+                // this.confirm(()=>{
+                //     // this.POST(`/api/user/tag=sign`,data).then(d=>{
+                //     //
+                //     // }).catch(e=>{
+                //     //     console.log(e)
+                //     // })
+                // })
+            },
+
+            sleep(n) {
+                var start = new Date().getTime();
+                //  console.log('休眠前：' + start);
+                while (true) {
+                    if (new Date().getTime() - start > n) {
+                        break;
+                    }
+                }
+                // console.log('休眠后：' + new Date().getTime());
+            }
+
 
         }
     }
@@ -123,6 +154,10 @@
                 float: right;
                 opacity: .8;
                 display: inline;
+                padding-top: 4upx;
+            }
+            .icon-right.icon-right-no-first{
+                padding-right: 10upx;
             }
         }
     }

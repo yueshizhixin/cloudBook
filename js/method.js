@@ -88,6 +88,27 @@ const method = {
         uni.hideLoading();
     },
 
+    confirm(successFunc=null,failFunc=null,completeFunc=null){
+        uni.showModal({
+            content: '确认操作',
+            success: (sms) => {
+                if (!sms.confirm) {
+                    return;
+                }
+                method.showLoading()
+                if(successFunc) successFunc();
+            },
+            fail: (e) => {
+                console.log(e)
+                this.$api.msg('操作失败')
+                if(failFunc) failFunc();
+            },complete:()=>{
+                method.hideLoading()
+                if(completeFunc) completeFunc();
+            }
+        });
+    },
+
 
     //公共请求
     async httpRequest(url, data, type, header) {
@@ -117,6 +138,7 @@ const method = {
                             }
                         } else {
                             console.log('httpRequest status<>200', res)
+                            method.hideLoading()
                             api.msg('请求失败')
                         }
                     },
@@ -143,15 +165,25 @@ const method = {
     /**
      * http请求
      */
-    get(url, data = {}, type, header = {
+    GET(url, data = {}, type, header = {
         "content-type": "application/x-www-form-urlencoded"
     }) {
         return method.httpRequest(url, data, 'GET', header)
     },
-    post(url, data = {}, type, header = {
+    POST(url, data = {}, type, header = {
         "content-type": "application/x-www-form-urlencoded"
     }) {
         return method.httpRequest(url, data, 'POST', header)
+    },
+    PUT(url, data = {}, type, header = {
+        "content-type": "application/x-www-form-urlencoded"
+    }) {
+        return method.httpRequest(url, data, 'PUT', header)
+    },
+    DELETE(url, data = {}, type, header = {
+        "content-type": "application/x-www-form-urlencoded"
+    }) {
+        return method.httpRequest(url, data, 'DELETE', header)
     }
     /**
      * end
@@ -163,8 +195,11 @@ const util = {
         Vue.prototype.navTo = method.navTo
         Vue.prototype.navBack = method.navBack
         Vue.prototype.navToIndex = method.navToIndex
-        Vue.prototype.get = method.get
-        Vue.prototype.post = method.post
+        Vue.prototype.GET = method.GET
+        Vue.prototype.POST = method.POST
+        Vue.prototype.PUT = method.PUT
+        Vue.prototype.POST = method.DELETE
+
 
         Vue.prototype.authorCheck = method.authorCheck
         Vue.prototype.signOut = method.signOut
@@ -172,6 +207,7 @@ const util = {
         Vue.prototype.setData = method.setData
         Vue.prototype.showLoading = method.showLoading
         Vue.prototype.hideLoading = method.hideLoading
+        Vue.prototype.confirm = method.confirm
 
     }
 };

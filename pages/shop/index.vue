@@ -33,7 +33,7 @@
         },
         methods: {
             getShopBookList() {
-                this.get(`/api/book`, {}).then(d => {
+                this.GET(`/api/book`, {}).then(d => {
                     console.log(d)
                     this.list=d.data
                 }).catch(e => {
