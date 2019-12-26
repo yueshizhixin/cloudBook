@@ -16,7 +16,7 @@ const method = {
     setData(item, sync = true) {
         if (!item.key || !item.data) return null;
         if (sync) { //同步
-            return uni.setStorageSync(item.key, item.data)
+            uni.setStorageSync(item.key, item.data)
         } else { //异步
             return uni.setStorage(item)
         }
@@ -77,6 +77,17 @@ const method = {
             data: null,
         })
     },
+
+    showLoading() {
+        uni.showLoading({
+            title: '',
+            mask: true
+        });
+    },
+    hideLoading() {
+        uni.hideLoading();
+    },
+
 
     //公共请求
     async httpRequest(url, data, type, header) {
@@ -159,6 +170,8 @@ const util = {
         Vue.prototype.signOut = method.signOut
         Vue.prototype.getDate = method.getDate
         Vue.prototype.setData = method.setData
+        Vue.prototype.showLoading = method.showLoading
+        Vue.prototype.hideLoading = method.hideLoading
 
     }
 };

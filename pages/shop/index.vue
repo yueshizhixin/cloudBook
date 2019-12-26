@@ -5,7 +5,7 @@
         </uni-nav-bar>
 
         <view class="container">
-            <list-single-short></list-single-short>
+            <list-single-short :list="list"></list-single-short>
         </view>
     </view>
 </template>
@@ -20,7 +20,8 @@
         },
         data() {
             return {
-                title: '书城'
+                title: '书城',
+                list:[],
             }
         },
         onLoad(p) {
@@ -34,6 +35,7 @@
             getShopBookList() {
                 this.get(`/api/book`, {}).then(d => {
                     console.log(d)
+                    this.list=d.data
                 }).catch(e => {
                     console.log(e)
                 })

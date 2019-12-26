@@ -63,8 +63,12 @@
                     this.$api.msg2('密码')
                     return;
                 }
+
+                this.showLoading()
                 this.post(`/api/user/tag=sign`, this.user).then((data) => {
                     console.log('登录', data)
+
+                    this.hideLoading()
                     this.$api.msg(data.msg)
                     if (data.ok === 0) {
                         return;
@@ -77,6 +81,10 @@
 
                 }).catch(e => {
                     console.log(e)
+
+                    this.$api.msg(`操作失败`)
+                    this.hideLoading()
+
                 })
             },
             read() {
