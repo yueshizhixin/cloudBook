@@ -12,20 +12,25 @@
         {
             "path": "pages/user/index",
             "style": {}
-        },
-
+        }
+    ],
+    "subPackages": [
         {
-            "path": "view/book/item",
-            "style": {}
-        },
-        {
-            "path": "view/book/detail",
-            "style": {}
-        },
-
-        {
-            "path": "view/user/signIn",
-            "style": {}
+            "root": "view",
+            "pages": [
+                {
+                    "path": "book/item",
+                    "style": {}
+                },
+                {
+                    "path": "book/detail",
+                    "style": {}
+                },
+                {
+                    "path": "user/signIn",
+                    "style": {}
+                }
+            ]
         }
     ],
     "globalStyle": {
