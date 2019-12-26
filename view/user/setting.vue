@@ -4,7 +4,7 @@
         </uni-nav-bar>
 
         <view class="container no-padding-top no-padding-side">
-            <view class="mode">
+            <view class="module">
                 <view class="item">
                     <view class="cuIcon-my icon"></view>
                     <view class="text">个人资料</view>
@@ -27,7 +27,7 @@
                 </view>
             </view>
 
-            <view class="mode">
+            <view class="module">
                 <view class="item">
                     <view class="cuIcon-down icon"></view>
                     <view class="text">检查更新</view>
@@ -42,7 +42,7 @@
                 </view>
             </view>
 
-            <view class="mode">
+            <view class="module">
                 <view class="btn">我要退出</view>
             </view>
 
@@ -82,7 +82,7 @@
         background-color: $color-bg-grey;
     }
 
-    .mode{
+    .module{
         font-size: 34upx;
         color: #444;
         background-color: white;
