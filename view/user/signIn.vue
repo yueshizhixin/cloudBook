@@ -43,7 +43,7 @@
                 user: {
                     phone: '',
                     pwd: '',
-                    action: 'in',
+                    action:'in',
                 }
             }
         },

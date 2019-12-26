@@ -76,32 +76,13 @@
         methods: {
             //退出
             signOut() {
-                // let data={
-                //     phone: '',
-                //     pwd: '',
-                //     action: 'out'
-                // }
-                //
-                // this.confirm(()=>{
-                //     // this.POST(`/api/user/tag=sign`,data).then(d=>{
-                //     //
-                //     // }).catch(e=>{
-                //     //     console.log(e)
-                //     // })
-                // })
+                let data={action:'out'}
+                this.POST(`/api/user/tag=sign`, data).then(d => {
+                    console.log('退出',d)
+                }).catch(e => {
+                    console.log(e)
+                })
             },
-
-            sleep(n) {
-                var start = new Date().getTime();
-                //  console.log('休眠前：' + start);
-                while (true) {
-                    if (new Date().getTime() - start > n) {
-                        break;
-                    }
-                }
-                // console.log('休眠后：' + new Date().getTime());
-            }
-
 
         }
     }
@@ -109,7 +90,7 @@
 
 <style lang="scss">
 
-    .module{
+    .module {
         font-size: 34upx;
         color: #444;
         background-color: white;
@@ -117,45 +98,49 @@
         /*margin: 0upx 0 30upx;*/
         border-radius: 8upx;
 
-        .btn{
+        .btn {
             margin-top: 40upx;
-            color:$color-primary;
-            font-size: 40ux;
+            color: $color-primary;
+            font-size: 40 ux;
             line-height: 40upx;
             height: 40upx;
             text-align: center;
             padding: 20upx 0;
         }
 
-        .item{
+        .item {
             font-size: 30upx;
             height: 30upx;
             line-height: 30upx;
             padding: 30upx 0;
             width: 674upx;
-            .icon{
+
+            .icon {
                 padding-right: 22upx;
                 display: inline;
                 font-size: calc(100% + 4upx);
                 height: calc(100% + 4upx);
                 line-height: calc(100% + 4upx);
             }
-            .text{
+
+            .text {
                 display: inline;
             }
+
             /*.text:after{*/
-                /*content: '》';*/
-                /*font-size: 30upx;*/
-                /*opacity: .8;*/
-                /*padding-right: 0;*/
+            /*content: '》';*/
+            /*font-size: 30upx;*/
+            /*opacity: .8;*/
+            /*padding-right: 0;*/
             /*}*/
-            .icon-right{
+            .icon-right {
                 float: right;
                 opacity: .8;
                 display: inline;
                 padding-top: 4upx;
             }
-            .icon-right.icon-right-no-first{
+
+            .icon-right.icon-right-no-first {
                 padding-right: 10upx;
             }
         }

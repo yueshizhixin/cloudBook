@@ -198,7 +198,7 @@ const util = {
         Vue.prototype.GET = method.GET
         Vue.prototype.POST = method.POST
         Vue.prototype.PUT = method.PUT
-        Vue.prototype.POST = method.DELETE
+        Vue.prototype.DELETE = method.DELETE
 
 
         Vue.prototype.authorCheck = method.authorCheck
