@@ -55,7 +55,6 @@
 
 <script>
     import uniNavBar from "@/component/comm/uni-nav-bar/uni-nav-bar.vue"
-    import uniNavBar from "@/component/comm/uni-nav-bar/uni-nav-bar.vue"
 
     export default {
         components: {
