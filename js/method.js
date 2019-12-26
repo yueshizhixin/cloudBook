@@ -160,7 +160,6 @@ const util = {
         Vue.prototype.getDate = method.getDate
         Vue.prototype.setData = method.setData
 
-
     }
 };
 
