@@ -80,11 +80,9 @@
             //退出
             signOut() {
                 this.$refs.modal.handleShow({success})
-
                 function success(d) {
                     if (d.id !== 1) return;
-                    let data = {action: 'out'}
-                    this.POST(`/api/user/tag=sign`, data).then(d => {
+                    this.POST(`/api/user/tag=sign=out`, {}).then(d => {
                         console.log('退出', d)
                     }).catch(e => {
                         console.log(e)

@@ -113,7 +113,7 @@ const method = {
     //公共请求
     async httpRequest(url, data, type) {
         let header= {
-            "content-type": "application/x-www-form-urlencoded"
+            "content-type": "application/x-www-form-urlencoded;charset=UTF-8"
         }
         try {
             return new Promise((resolve, reject) => {
@@ -122,6 +122,7 @@ const method = {
                     data: data,
                     header: header,
                     method: type,
+                    timeout:10000,
                     success: (res) => {
                         if (res.statusCode === 200) {
                             let data = JSON.parse(res.data)

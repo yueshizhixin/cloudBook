@@ -43,7 +43,6 @@
                 user: {
                     phone: '',
                     pwd: '',
-                    action:'in',
                 }
             }
         },
@@ -65,7 +64,7 @@
                 }
 
                 this.showLoading()
-                this.POST(`/api/user/tag=sign`, this.user).then((data) => {
+                this.POST(`/api/user/tag=sign=in`, this.user).then((data) => {
                     console.log('登录', data)
 
                     this.hideLoading()
