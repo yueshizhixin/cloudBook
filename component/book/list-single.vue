@@ -2,7 +2,7 @@
     <view>
         <view v-for="(item,index) of list" :key="index" @tap="gotoItem(item)" class="book">
 
-            <image src="http://cdn.yueshizhixin.top/cloudbook/book/image/ren_dao_zhi_zun.jpg?imageView2/1/w/600/h/600"
+            <image src="http://cdn.yueshizhixin.top/cloudbook/book/image/ren_dao_zhi_zun.jpg?imageView2/1/w/502/h/200"
                    alt="" mode="widthFix" class="book-image"
 
             ></image>
