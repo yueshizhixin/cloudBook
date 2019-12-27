@@ -57,7 +57,7 @@ export default {
       showCancel: true,
       cancelColor: '',
       cancelText: '取消',
-      confirmColor: '#007aff',
+      confirmColor: '#fb739a',
       confirmText: '确定',
       actions: [],
       actionMode: true,
@@ -67,9 +67,9 @@ export default {
     }
   },
   methods: {
-    handleShow ({title = '', content = '', modalID = 'modal',
+    handleShow ({title = '操作提示', content = '是否确认当前操作', modalID = 'modal',
       showCancel = true, cancelColor = '',
-      cancelText = '取消', confirmColor = '#007aff',
+      cancelText = '取消', confirmColor = '#fb739a',
       confirmText = '确定', actions = [],
       actionMode = true, maskClose = false, success = () => {}}) {
       clearTimeout(this.timer)
@@ -95,7 +95,7 @@ export default {
         this.showCancel = true
         this.cancelColor = ''
         this.cancelText = '取消'
-        this.confirmColor = '#007aff'
+        this.confirmColor = '#fb739a'
         this.confirmText = '确定'
         this.actions = []
         this.maskClose = false 

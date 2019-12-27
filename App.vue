@@ -33,17 +33,17 @@
 
     //导航栏icon大小
     .tabbar-icon-size{
-        font-size: 40upx;
+        font-size: 44upx;
     }
 
     /*导航栏下*/
     .container{
         padding: 30upx;
-        padding-top: calc(118upx + #{$height-app-top});/*30+88(header)*/
+        padding-top: calc(30upx + #{$header-navbar-height} + #{$height-app-top});/*30+88(header)*/
         position: relative;
     }
     .container.no-padding-top{
-        padding-top: calc(88upx + #{$height-app-top});/*30+88(header)*/
+        padding-top: calc(#{$header-navbar-height} + #{$height-app-top});/*30+88(header)*/
     }
     .container.no-padding-side{
         padding-left: 0;

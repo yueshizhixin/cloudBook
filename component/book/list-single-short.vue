@@ -58,6 +58,7 @@
             vertical-align: bottom;height: 54upx;
             .left{
                 display: inline;color: #333;
+                font-size:34upx ;
             }
             .right{
                 display: inline;float: right;color: #555;font-size: 26upx;padding-top: 14upx;

@@ -1,7 +1,7 @@
 <template>
 	<view class="page-comm tabber-page">
         <uni-nav-bar :title="title">
-            <view slot="right" class="cuIcon-search" @tap="navTo(`no`)"></view>
+            <view slot="right" class="cuIcon-search tabbar-icon-size" @tap="navTo(`no`)"></view>
         </uni-nav-bar>
 
         <view class="container">

@@ -3,15 +3,21 @@
     "pages": [
         {
             "path": "pages/index/index",
-            "style": {}
+            "style": {
+                "enablePullDownRefresh": true
+            }
         },
         {
             "path": "pages/shop/index",
-            "style": {}
+            "style": {
+                "enablePullDownRefresh": true
+            }
         },
         {
             "path": "pages/user/index",
-            "style": {}
+            "style": {
+                "enablePullDownRefresh": true
+            }
         }
     ],
     "subPackages": [
@@ -41,13 +47,13 @@
     "globalStyle": {
         "navigationBarTextStyle": "white",
         "navigationBarTitleText": "云之书",
-        "navigationBarBackgroundColor": "#fb7299",
+        "navigationBarBackgroundColor": "#fb739a",
         "backgroundColor": "#F8F8F8",
         "navigationStyle": "custom"
     },
     "tabBar": {
         "color": "#757575",
-        "selectedColor": "#fb7299",
+        "selectedColor": "#fb739a",
         "borderStyle": "black",
         "backgroundColor": "#ffffff",
         "list": [

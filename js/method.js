@@ -111,7 +111,10 @@ const method = {
 
 
     //公共请求
-    async httpRequest(url, data, type, header) {
+    async httpRequest(url, data, type) {
+        let header= {
+            "content-type": "application/x-www-form-urlencoded"
+        }
         try {
             return new Promise((resolve, reject) => {
                 uni.request({
@@ -165,25 +168,17 @@ const method = {
     /**
      * http请求
      */
-    GET(url, data = {}, type, header = {
-        "content-type": "application/x-www-form-urlencoded"
-    }) {
-        return method.httpRequest(url, data, 'GET', header)
+    GET(url, data = {}) {
+        return method.httpRequest(url, data, 'GET')
     },
-    POST(url, data = {}, type, header = {
-        "content-type": "application/x-www-form-urlencoded"
-    }) {
-        return method.httpRequest(url, data, 'POST', header)
+    POST(url, data = {}) {
+        return method.httpRequest(url, data, 'POST')
     },
-    PUT(url, data = {}, type, header = {
-        "content-type": "application/x-www-form-urlencoded"
-    }) {
-        return method.httpRequest(url, data, 'PUT', header)
+    PUT(url, data = {}) {
+        return method.httpRequest(url, data, 'PUT')
     },
-    DELETE(url, data = {}, type, header = {
-        "content-type": "application/x-www-form-urlencoded"
-    }) {
-        return method.httpRequest(url, data, 'DELETE', header)
+    DELETE(url, data = {}) {
+        return method.httpRequest(url, data, 'DELETE')
     }
     /**
      * end

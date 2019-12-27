@@ -50,15 +50,18 @@
 
         </view>
 
+        <min-modal ref="modal"></min-modal>
+
     </view>
 </template>
 
 <script>
     import uniNavBar from "@/component/comm/uni-nav-bar/uni-nav-bar.vue"
+    import minModal from '@/component/comm/min-modal/min-modal'
 
     export default {
         components: {
-            uniNavBar
+            uniNavBar, minModal
         },
         data() {
             return {
@@ -76,14 +79,18 @@
         methods: {
             //退出
             signOut() {
-                let data={action:'out'}
-                this.POST(`/api/user/tag=sign`, data).then(d => {
-                    console.log('退出',d)
-                }).catch(e => {
-                    console.log(e)
-                })
-            },
+                this.$refs.modal.handleShow({success})
 
+                function success(d) {
+                    if (d.id !== 1) return;
+                    let data = {action: 'out'}
+                    this.POST(`/api/user/tag=sign`, data).then(d => {
+                        console.log('退出', d)
+                    }).catch(e => {
+                        console.log(e)
+                    })
+                }
+            },
         }
     }
 </script>

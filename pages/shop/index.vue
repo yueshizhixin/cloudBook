@@ -1,7 +1,7 @@
 <template>
     <view class="page-comm tabber-page">
         <uni-nav-bar :title="title">
-            <view slot="right" class="cuIcon-search" @tap="navTo(`no`)"></view>
+            <view slot="right" class="cuIcon-search tabbar-icon-size" @tap="navTo(`no`)"></view>
         </uni-nav-bar>
 
         <view class="container">
@@ -22,6 +22,13 @@
             return {
                 title: '书城',
                 list:[],
+                page: {
+                    limit: 10,
+                    offset: 1,
+                    loading: 0,//正在加载中 默认否
+                    loaded: 0,//至少加载过一次 默认否
+                    loadable: 1,//能否进行加载操作 默认是
+                }
             }
         },
         onLoad(p) {
@@ -31,13 +38,49 @@
         onReady() {
             this.getShopBookList()
         },
+        onPullDownRefresh() {
+            this.pageInit()
+            this.getShopBookList()
+        },
+        onReachBottom() {
+            this.getShopBookList()
+        },
         methods: {
+            pageInit() {
+                this.page={
+                    limit: 10,
+                    offset: 1,
+                    loading: 0,//正在加载中 默认否
+                    loaded: 0,//至少加载过一次 默认否
+                    loadable: 1,//能否进行加载操作 默认是
+                }
+                this.list=[]
+            },
             getShopBookList() {
-                this.GET(`/api/book`, {}).then(d => {
+                if (this.page.loadable === 0) {
+                    uni.stopPullDownRefresh();
+                    return;
+                }
+                if (this.page.loading === 1) {
+                    uni.stopPullDownRefresh();
+                    return;
+                }
+                this.page.loading=1
+                this.GET(`/api/book`, this.page).then(d => {
                     console.log(d)
-                    this.list=d.data
+                    this.list.push(...d.data)
+
+                    if(d.data.length<this.page.limit){
+                        this.page.loadable=0
+                    }
+                    this.page.offset++
+                    this.page.loading=0
+                    this.page.loaded=1
+                    uni.stopPullDownRefresh();
                 }).catch(e => {
                     console.log(e)
+                    this.page.loading=0
+                    uni.stopPullDownRefresh();
                 })
             }
         }

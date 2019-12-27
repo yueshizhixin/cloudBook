@@ -16,9 +16,9 @@
 					</view>
 					<slot name="left" />
 				</view>
-				<view class="uni-navbar__header-container uni-navbar__content_view">
+				<view class="uni-navbar__header-container uni-navbar__content_view" >
 					<view class="uni-navbar__header-container-inner uni-navbar__content_view" v-if="title.length">
-						<text class="uni-nav-bar-text" :style="{color: color }">{{ title }}</text>
+						<text class="uni-nav-bar-text" :style="{color: color }" style="font-size: 44upx;">{{ title }}</text>
 					</view>
 					<!-- 标题插槽 -->
 					<slot />
@@ -83,7 +83,7 @@
 			},
 			backgroundColor: {
 				type: String,
-				default: "#fb7299"
+				default: "#fb739a"
 			},
 			statusBar: {
 				type: [Boolean, String],
@@ -115,7 +115,7 @@
 </script>
 
 <style lang="scss" scoped>
-	$nav-height: 44px;
+	$nav-height: $header-navbar-height;
 	.uni-nav-bar-text {
 		/* #ifdef APP-PLUS */
 		font-size: 34rpx;
