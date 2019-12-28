@@ -90,6 +90,9 @@
                 this.page.loading=1
                 this.GET(`/api/book`, this.page).then(d => {
                     console.log(d)
+                    d.data.forEach(x=>{
+                        x.bookImage=x.bookImageVertical
+                    })
                     this.list.push(...d.data)
 
                     if(d.data.length<this.page.limit){

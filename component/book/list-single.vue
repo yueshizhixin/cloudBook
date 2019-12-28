@@ -1,22 +1,19 @@
 <template>
     <view>
         <view v-for="(item,index) of list" :key="index" @tap="gotoItem(item)" class="book2">
-
-            <image src="http://cdn.yueshizhixin.top/cloudbook/book/image/ren_dao_zhi_zun.jpg?imageView2/1/w/502/h/200"
-                   alt="" mode="widthFix" class="book-image"></image>
+            <image :src="item.bookImage" alt="" mode="widthFix" class="book-image"></image>
             <view class="desc">
                 <view class="desc-container">
-                    <image src="http://cdn.yueshizhixin.top/cloudbook/book/author/headImage/zhai_zhu.jpg?imageView2/1/w/300/h/300"
-                           mode="widthFix" class="author-img"></image>
+                    <image :src="item.bookAuthorImage" mode="widthFix" class="author-img"></image>
                     <view class="title">
-                        从前有座灵剑山
+                        {{item.bookName}}
                     </view>
                     <view class="author-name">
                         <view class="author-name2">
-                            国王陛下
+                            {{item.bookAuthor}}
                         </view>
                         <view class="time">
-                            123分钟 22.1%已读
+                            {{item.readDuration}}分钟 50.4%已读
                         </view>
                     </view>
                 </view>
@@ -33,7 +30,7 @@
             list: {
                 type: Array,
                 default: () => {
-                    return [{},{},{},{},{},{}];
+                    return [];
                 }
             }
         },
