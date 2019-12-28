@@ -40,7 +40,7 @@
             list: {
                 type: Array,
                 default: () => {
-                    return [{},{},{}];
+                    return [];
                 }
             }
         },
