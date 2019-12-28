@@ -7,16 +7,19 @@
         <view class="container">
             <list-single-short :list="list"></list-single-short>
         </view>
+
+        <uni-load-more :status="loadingStatus"></uni-load-more>
     </view>
 </template>
 
 <script>
     import uniNavBar from "@/component/comm/uni-nav-bar/uni-nav-bar.vue"
     import listSingleShort from "@/component/book/list-single-short"
+    import UniLoadMore from "@/component/comm/uni-load-more"
 
     export default {
         components: {
-            uniNavBar, listSingleShort
+            uniNavBar, listSingleShort,UniLoadMore,
         },
         data() {
             return {
@@ -29,6 +32,25 @@
                     loaded: 0,//至少加载过一次 默认否
                     loadable: 1,//能否进行加载操作 默认是
                 }
+            }
+        },
+        computed: {
+            loadingStatus() {
+                let page = this.page
+                if (page.loadable === 1 && page.loading === 1) {
+                    return `loading`
+                }
+                if (page.loadable === 1 && page.loading === 0) {
+                    return `more`
+                }
+                if (page.loadable === 0) {
+                    return `noMore`;
+                }
+                return ``
+            },
+            isEmpty() {
+                let page=this.page
+                return page.loaded === 1 && page.loadable === 0;
             }
         },
         onLoad(p) {

@@ -45,8 +45,8 @@
 <script>
 	import uniStatusBar from "./uni-status-bar.vue";
 	import uniIcons from "./uni-icons.vue";
-
-	export default {
+	import styleConf from '@/js/css'
+    export default {
 		name: "UniNavBar",
 		components: {
 			uniStatusBar,
@@ -83,7 +83,7 @@
 			},
 			backgroundColor: {
 				type: String,
-				default: "#fb739a"
+				default: styleConf.color_primary
 			},
 			statusBar: {
 				type: [Boolean, String],
@@ -98,6 +98,10 @@
 				default: true
 			}
 		},
+        data() {
+		    return{
+			}
+        },
         mounted() {
           if(uni.report && this.title !== '') {
               uni.report('title', this.title)

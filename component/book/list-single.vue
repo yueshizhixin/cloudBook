@@ -1,11 +1,9 @@
 <template>
     <view>
-        <view v-for="(item,index) of list" :key="index" @tap="gotoItem(item)" class="book">
+        <view v-for="(item,index) of list" :key="index" @tap="gotoItem(item)" class="book2">
 
             <image src="http://cdn.yueshizhixin.top/cloudbook/book/image/ren_dao_zhi_zun.jpg?imageView2/1/w/502/h/200"
-                   alt="" mode="widthFix" class="book-image"
-
-            ></image>
+                   alt="" mode="widthFix" class="book-image"></image>
             <view class="desc">
                 <view class="desc-container">
                     <image src="http://cdn.yueshizhixin.top/cloudbook/book/author/headImage/zhai_zhu.jpg?imageView2/1/w/300/h/300"
@@ -35,7 +33,7 @@
             list: {
                 type: Array,
                 default: () => {
-                    return [{},{},{}];
+                    return [{},{},{},{},{},{}];
                 }
             }
         },
@@ -73,6 +71,51 @@
                     }
                     .time{
                         display: inline;font-size: 22upx;float: right;padding-top: 10upx
+                    }
+                }
+            }
+        }
+    }
+
+    .book2{
+        padding-top: 30upx;
+        padding-bottom: 150upx;
+        position: relative;
+        .book-image{
+            border-radius: 14upx;
+        }
+        border-bottom: 2upx solid #ebebeb;
+
+        .desc{
+            position: absolute;
+            bottom: 30upx;
+            color:#333;
+            width: 100%;
+            font-size: 30upx;
+            .desc-container{
+                padding:0 0upx 0upx 0upx;
+                .author-img{
+                    width: 100upx;height: 100upx;border: solid 4upx white;border-radius: 20upx;
+                    float: left;margin-top: -6upx;
+                }
+                .title{
+                    font-size: 40upx;
+                    margin-bottom: 4upx;
+                    margin-left: 128upx;
+                    color:#333;
+                }
+
+                .author-name{
+                    color: #555;
+                    display: inline;
+                    vertical-align: bottom;
+                    margin-left: 20upx;
+                    .author-name2{
+                        display: inline;
+                    }
+                    .time{
+                        display: inline;font-size: 22upx;float: right;padding-top: 10upx;
+                        color:#888;
                     }
                 }
             }

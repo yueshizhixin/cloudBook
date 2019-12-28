@@ -65,10 +65,14 @@ const method = {
     },
     //权限检测
     authorCheck() {
-        let user = method.getDate({key: 'user'})
-        if (!user || user.id == 0) {
-            method.navToSign()
-        }
+        // let user = method.getDate({key: 'user'})
+        // if (!user || user.id == 0) {
+        //     method.navToSign()
+        // }
+    },
+    //是否登录
+    authorIsign() {
+        return true;
     },
     //登出
     signOut() {
@@ -87,28 +91,6 @@ const method = {
     hideLoading() {
         uni.hideLoading();
     },
-
-    confirm(successFunc=null,failFunc=null,completeFunc=null){
-        uni.showModal({
-            content: '确认操作',
-            success: (sms) => {
-                if (!sms.confirm) {
-                    return;
-                }
-                method.showLoading()
-                if(successFunc) successFunc();
-            },
-            fail: (e) => {
-                console.log(e)
-                this.$api.msg('操作失败')
-                if(failFunc) failFunc();
-            },complete:()=>{
-                method.hideLoading()
-                if(completeFunc) completeFunc();
-            }
-        });
-    },
-
 
     //公共请求
     async httpRequest(url, data, type) {
@@ -196,14 +178,15 @@ const util = {
         Vue.prototype.PUT = method.PUT
         Vue.prototype.DELETE = method.DELETE
 
-
         Vue.prototype.authorCheck = method.authorCheck
+        Vue.prototype.authorIsign = method.authorIsign
         Vue.prototype.signOut = method.signOut
+
         Vue.prototype.getDate = method.getDate
         Vue.prototype.setData = method.setData
+
         Vue.prototype.showLoading = method.showLoading
         Vue.prototype.hideLoading = method.hideLoading
-        Vue.prototype.confirm = method.confirm
 
     }
 };

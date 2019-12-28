@@ -14,14 +14,19 @@
 
     import uniNavBar from "@/component/comm/uni-nav-bar/uni-nav-bar.vue"
     import listSingle from "@/component/book/list-single"
+    import tabBar from "@/component/comm/ms-tabs/ms-tabs.vue"
 
 	export default {
         components: {
-            uniNavBar,listSingle
+            uniNavBar,listSingle,
         },
 		data() {
 			return {
-                title:'我的书架'
+                title:'我的书架',
+                tabList:[
+                    {id:1,title:'本地'},
+                    {id:2,title:'网络'},
+                ]
 			}
 		},
 		onLoad() {
