@@ -91,7 +91,7 @@
                     return;
                 }
                 this.page.loading=1
-                this.GET(`/api/shelf`, this.page).then(d => {
+                this.GET(`/api/v1/book/shelf`, this.page).then(d => {
                     console.log(d)
                     d.data.forEach(x=>{
                         x.bookImage=x.bookImageAlign

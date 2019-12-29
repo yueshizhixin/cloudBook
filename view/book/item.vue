@@ -34,7 +34,7 @@
 <script>
     import ssSliderbar from '@/component/ebook/ss-sliderbar/ss-sliderbar.vue'
     import ssToolbar from '@/component/ebook/ss-toolbar/ss-toolbar.vue'
-    import Json from '@/Json'
+    // import Json from '@/Json'
     import uParse from '@/component/ebook/gaoyia-parse/parse.vue'
     import ssSetbar from '@/component/ebook/ss-setbar/ss-setbar.vue'
 
@@ -50,8 +50,8 @@
                 /**
                  * ---------自带的 start------------
                  */
-                chapterList: [],
-                chapter: {},
+                chapterList: [],//目录列表
+                chapter: {},//当前章节
                 sliderShow: false,
                 toolShow: false,
                 setShow: false,
@@ -60,7 +60,7 @@
                 content: '',
                 chapterTitle: '',
                 currentChapter: 0, // 当前的章节数 默认从0开始
-                fontSize: '17px',
+                fontSize: '20px',
                 nightTheme: {
                     backgroundColor: '#161616',
                     color: '#4f5050'
@@ -85,6 +85,15 @@
                 // 阅读模式 page scroll
                 readMode:`page`,
                 textArr:[],//文字内容数组
+                bookId:2,
+                //目录title page
+                page: {
+                    limit: 20,
+                    offset: 1,
+                    loading: 0,//正在加载中 默认否
+                    loaded: 0,//至少加载过一次 默认否
+                    loadable: 1,//能否进行加载操作 默认是
+                }
             }
         },
         onLoad(p) {
@@ -93,9 +102,14 @@
         onShow() {
 
         },
-        onReady() {
+        async onReady() {
+            console.log(1,new Date().getTime())
             this.getEbookChapterList();
+            console.log(2,new Date().getTime())
+            this.getChapterContent()
+            console.log(3,new Date().getTime())
             this.calculateScreenSize();
+            console.log(4,new Date().getTime())
         },
         methods: {
 
@@ -124,17 +138,49 @@
             },
 
             //获取电子书章节
-            getEbookChapterList () {
-                this.chapterList = Json.chapterList;
-                let chapter = this.chapterList[0];
-                this.chapter = chapter;
-                this.chapterTitle = chapter.title;
-                this.getChapterContent(chapter.number);
+            async getEbookChapterList() {
+                if (this.page.loadable === 0) {
+                    uni.stopPullDownRefresh();
+                    return;
+                }
+                if (this.page.loading === 1) {
+                    uni.stopPullDownRefresh();
+                    return;
+                }
+                this.page.loading=1
+                this.page.bookId=this.bookId
+                let d=await this.GET(`/api/v1/book/${this.bookId}/chapter`,this.page)
+                console.log('目录',d)
+                this.page.loading=0
+                uni.stopPullDownRefresh();
+                if(d.ok===1){
+                    this.chapterList.push(...d.data)
+                    if(d.data.length<this.page.limit){
+                        this.page.loadable=0
+                    }
+                    this.page.offset++
+                    this.page.loaded=1
+                }
+
+                // let chapter = this.chapterList[0];
+                // this.chapter = chapter;
+                // this.chapterTitle = chapter.title;
+                // this.getChapterContent(chapter.number);
             },
 
             //获取本章节内容
-            getChapterContent (num) {
-                this.content = Json.chapterContent.content;
+            async getChapterContent (num=-1) {
+                this.showLoading()
+                let d=await this.GET(`/api/v1/book/chapter/2/content`,{})
+                this.hideLoading()
+                console.log('章节内容',d)
+                if(d.ok!==1 || !d.data || !d.data.content){
+                    this.$api.msg("获取章节内容失败")
+                    return;
+                }
+
+                let data=d.data.content
+                this.content=data.replace(/<br>\r/g,'')
                 this.calcTextArr()
             },
 
@@ -204,7 +250,7 @@
             chapterItemHandler (index) {
                 console.log('chapterItemHandler',index)
                 let chapter = this.chapterList[index];
-                this.$api.msg('章节ID:' + chapter.number);
+                this.$api.msg('章节ID:' + chapter.id);
             },
             sliderHandler () {
                 console.log('sliderHandler')

@@ -64,7 +64,7 @@
                 }
 
                 this.showLoading()
-                this.POST(`/api/user/tag=sign=in`, this.user).then((data) => {
+                this.POST(`/api/v1/user/tag=sign=in`, this.user).then((data) => {
                     console.log('登录', data)
 
                     this.hideLoading()

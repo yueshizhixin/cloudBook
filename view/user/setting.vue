@@ -82,7 +82,7 @@
                 this.$refs.modal.handleShow({success})
                 function success(d) {
                     if (d.id !== 1) return;
-                    this.POST(`/api/user/tag=sign=out`, {}).then(d => {
+                    this.POST(`/api/v1/user/tag=sign=out`, {}).then(d => {
                         console.log('退出', d)
                     }).catch(e => {
                         console.log(e)
