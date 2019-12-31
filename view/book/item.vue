@@ -8,7 +8,7 @@
                 <view class="content-section">
                     <text class="content" :style="{'font-size': fontSize+'px', 'color': currentTheme.color}">{{content}}</text>
                 </view>
-                <view class="bottom-section">
+                <view class="bottom-section" v-if="menubarShow">
                     <button @click="bottomBtnHandler('pre')" class="bottom-btn" :class="{'bottom-night-btn': isNight}" type="primary">上一章</button>
                     <button @click="bottomBtnHandler('chapters')" class="bottom-btn" :class="{'bottom-night-btn': isNight}" type="primary">目录</button>
                     <button @click="bottomBtnHandler('next')" class="bottom-btn" :class="{'bottom-night-btn': isNight}" type="primary">下一章</button>
@@ -93,10 +93,12 @@
                     loading: 0,//正在加载中 默认否
                     loaded: 0,//至少加载过一次 默认否
                     loadable: 1,//能否进行加载操作 默认是
-                }
+                },
+                menubarShow:false,//上一页 设置 下一页显示
             }
         },
         onLoad(p) {
+            this.menubarShow=false;
             this.bookId=p.id || 0
             if(!this.$reg.uintno0.test(this.bookId)){
                 this.navBack()
@@ -116,8 +118,25 @@
         async onReady() {
             this.getEbookChapterList();
             this.getChapterContent()
+            setTimeout(()=>{
+               this.menubarShow=true;
+            },7000)
         },
         methods: {
+
+            //上一页
+            prePage() {
+                uni.redirectTo({
+                    url:`/view/book/item?id=${this.bookId}&chapterId=${this.chapterId-1}`
+                })
+            },
+
+            //下一页
+            nextPage() {
+                uni.redirectTo({
+                    url:`/view/book/item?id=${this.bookId}&chapterId=${this.chapterId+1}`
+                })
+            },
 
             //计算文字数组
             calcTextArr() {
@@ -182,7 +201,7 @@
                 /**
                  * 从书架里进入不传章节 获取书架的缓存
                  */
-                if(this.chapterId==0){
+                if(this.chapterId===0){
                     if(num===-1){
                         let shelf=this.getData({key:`book_shelf`})
                         console.log('书架缓存',shelf)
@@ -194,6 +213,23 @@
                 }
 
                 /**
+                 * 获取标题
+                 * 先临时这样 最终用左侧列表
+                 */
+                this.GET(`/api/v1/book/chapter/${this.chapterId}/title`,{}).then(d=>{
+                    console.log(`标题`,d)
+                    if (d.ok === 0) {
+                        this.$api.msg(`标题获取失败 ${d.msg}`);
+                    }
+                    this.chapterTitle=d.data.title
+
+                }).catch(e=>{
+                    console.log(e)
+                    this.$api.msg(`标题获取失败`)
+                })
+
+
+                /**
                  * 缓存里有无此书
                  */
                 let cache_book_content = this.getData({key: `book${this.bookId}chapter${this.chapterId}`})
@@ -201,7 +237,7 @@
                     this.content=cache_book_content
                 }else{
                     this.showLoading()
-                    let d=await this.GET(`/api/v1/book/chapter/${num}/content`,{})
+                    let d=await this.GET(`/api/v1/book/chapter/${this.chapterId}/content`,{})
 
                     if(d.ok!==1 || !d.data || !d.data.content){
                         this.$api.msg("获取章节内容失败")
@@ -211,6 +247,21 @@
                     let data=d.data.content
                     this.content=data.replace(/<br>\r/g,'')
                     this.hideLoading()
+
+                    /**
+                     * 更新阅读记录
+                     */
+                    this.PUT(`/api/v1/book/${this.bookId}/chapter/${this.chapterId}`,{}).then(d=>{
+                        if (d.ok === 0) {
+                            this.$api.msg(`同步阅读记录失败 ${d.msg}`)
+                            return;
+                        }
+                        console.log('同步阅读记录成功')
+
+                    }).catch(e=>{
+                        this.$api.msg('同步阅读记录失败')
+                    })
+
                     this.setData({
                         key: `book${this.bookId}chapter${this.chapterId}`,
                         data:this.content
@@ -219,10 +270,6 @@
 
                 this.calcTextArr()
                 this.calculateScreenSize();
-
-                /**
-                 * 更新阅读记录
-                 */
             },
 
 
@@ -231,10 +278,10 @@
                 console.log('chapterBtnHandler')
                 switch (btnType) {
                     case 'pre':
-                        this.$api.msg('上一章按钮');
+                        this.prePage()
                         break;
                     case 'next':
-                        this.$api.msg('下一章按钮');
+                        this.nextPage()
                         break;
                 }
             },
@@ -343,16 +390,13 @@
             bottomBtnHandler (type) {
                 switch (type){
                     case 'pre':
-                        this.getChapterContent(this.chapterId-1)
+                        this.prePage()
                         break;
                     case 'chapters':
                         this.sliderShow = true;
                         break;
                     case 'next':
-                        // this.getChapterContent(this.chapterId+1)
-                        uni.redirectTo({
-                            url:`/view/book/item?id=${this.bookId}&chapterId=${this.chapterId+1}`
-                        })
+                        this.nextPage()
                         break;
                 }
             },
@@ -423,6 +467,7 @@
                 padding: 20upx 40upx;
                 font-size: 24px;
                 font-weight: 600;
+                text-align: center;
             }
 
             .bottom-section {
