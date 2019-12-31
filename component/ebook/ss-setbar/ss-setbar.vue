@@ -33,6 +33,12 @@
 				default () {
 					return false;
 				}
+			},
+			defaultFontSize:{
+			    type:Number,
+                default() {
+			        return 10;
+                }
 			}
 			
 		},
@@ -59,7 +65,16 @@
 				return this.isNightTheme ? this.nightThemeColor : this.dayThemeColor;
 			}
 		},
-		methods: {
+        watch: {
+            fontSize () {
+                console.log('观察字体大小:' + this.fontSize);
+                this.$emit('fontSizeChange', this.fontSize);
+            }
+        },
+        mounted() {
+		    this.fontSize=this.defaultFontSize
+        },
+        methods: {
 			modifySizeAction (action) {
 				switch (action){
 					case 'reduce':
@@ -89,12 +104,7 @@
 				this.$emit('brightChange', value);
 			}
 		},
-		watch: {
-			fontSize () {
-				console.log('观察字体大小:' + this.fontSize);
-				this.$emit('fontSizeChange', this.fontSize);
-			}
-		}
+
 	}
 </script>
 

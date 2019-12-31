@@ -97,6 +97,10 @@
                         x.bookImage=x.bookImageAlign
                     })
                     this.list.push(...d.data)
+                    this.setData({
+                        key:'book_shelf',
+                        data:this.list,
+                    },false)
 
                     if(d.data.length<this.page.limit){
                         this.page.loadable=0

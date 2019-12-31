@@ -13,7 +13,7 @@
                             {{item.bookAuthor}}
                         </view>
                         <view class="time">
-                            {{item.readDuration}}分钟 50.4%已读
+                            {{item.readDuration}}分钟 {{getReadPercent(item)}}已读
                         </view>
                     </view>
                 </view>
@@ -35,8 +35,16 @@
             }
         },
         methods: {
+            //阅读百分比
+            getReadPercent(item) {
+                if (item.bookChapterCount <= 0) {
+                    return 0;
+                }
+                return (Number(item.chapterNo/item.bookChapterCount)*100).toFixed(1)+'%'
+            },
+
             gotoItem(item) {
-                this.navTo(`/view/book/item`)
+                this.navTo(`/view/book/item?id=${item.id}`)
             }
         }
     }

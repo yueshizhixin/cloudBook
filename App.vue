@@ -39,7 +39,7 @@
     /*导航栏下*/
     .container{
         padding: 30upx;
-        padding-top: calc(30upx + #{$header-navbar-height} + #{$height-app-top});/*30+88(header)*/
+        padding-top: calc(40upx + #{$header-navbar-height} + #{$height-app-top});/*30+88(header)*/
         position: relative;
     }
     .container.no-padding-top{

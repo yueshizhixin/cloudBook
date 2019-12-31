@@ -4,7 +4,7 @@ import conf from './conf'
 const method = {
 
     //缓存数据 默认同步
-    getDate(item, sync = true) {
+    getData(item, sync = true) {
         if (!item.key) return null;
         if (sync) { //同步
             return uni.getStorageSync(item.key)
@@ -182,7 +182,7 @@ const util = {
         Vue.prototype.authorIsign = method.authorIsign
         Vue.prototype.signOut = method.signOut
 
-        Vue.prototype.getDate = method.getDate
+        Vue.prototype.getData = method.getData
         Vue.prototype.setData = method.setData
 
         Vue.prototype.showLoading = method.showLoading
