@@ -46,11 +46,11 @@
 			return {
 				fontSize: 17,
 				minFontSize: 10, // 可以设置的最小字体字号
-				maxFontSize: 40, // 可以设置的最字体字号
+				maxFontSize: 100, // 可以设置的最字体字号
 				brightValue: 50,
 				dayThemeColor: {
-					backgroundColor: '#fff',
-					color: '#333',
+					backgroundColor: '#f6f4ec',
+					color: '#000',
 					borderColor: '#f0f0f0'
 				},
 				nightThemeColor: {

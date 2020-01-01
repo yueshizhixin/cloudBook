@@ -51,7 +51,7 @@ const method = {
             //是登录页
             if (pages[pages.length - 1].route == `view/user/signIn`) {
                 //是否登录
-                if (method.getDate({key: 'user'})) {
+                if (method.getData({key: 'user'})) {
                     uni.navigateBack()
                 } else {
                     method.navToIndex()
@@ -65,7 +65,7 @@ const method = {
     },
     //权限检测
     authorCheck() {
-        // let user = method.getDate({key: 'user'})
+        // let user = method.getData({key: 'user'})
         // if (!user || user.id == 0) {
         //     method.navToSign()
         // }

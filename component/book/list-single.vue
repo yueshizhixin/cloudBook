@@ -6,7 +6,13 @@
                 <view class="desc-container">
                     <image :src="item.bookAuthorImage" mode="widthFix" class="author-img"></image>
                     <view class="title">
-                        {{item.bookName}}
+                        <view>
+                            {{item.bookName}}
+                        </view>
+
+                        <view class="updateTime">
+                            {{item.updateTime.substring(0,16)}}
+                        </view>
                     </view>
                     <view class="author-name">
                         <view class="author-name2">
@@ -88,6 +94,7 @@
         position: relative;
         .book-image{
             border-radius: 14upx;
+            width: 690upx;
         }
         border-bottom: 2upx solid #ebebeb;
 
@@ -108,6 +115,9 @@
                     margin-bottom: 4upx;
                     margin-left: 128upx;
                     color:#333;
+                    .updateTime{
+                        float: right;font-size: 22upx;margin-top: -26upx;color:#888;
+                    }
                 }
 
                 .author-name{

@@ -15,15 +15,16 @@
 $color-primary: #fb739a;
 $color-bg:#fafafa;
 $color-bg-grey: #f4f4f4;
+$color-ebook:rgba(246,244,236,0.75);
 
 /*#ifdef APP-PLUS*/
-$height-app-top:6.67vw;
+$height-app-top:50rpx;
 /*#endif */
 /*#ifndef APP-PLUS*/
 $height-app-top:0upx;
 /*#endif */
 
-$header-navbar-height:16vw;
+$header-navbar-height:110rpx;
 
 /* 颜色变量 */
 

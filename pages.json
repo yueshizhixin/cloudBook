@@ -26,7 +26,9 @@
             "pages": [
                 {
                     "path": "book/item",
-                    "style": {}
+                    "style": {
+                        "navigationStyle": "default"
+                    }
                 },
                 {
                     "path": "book/detail",
@@ -49,7 +51,12 @@
         "navigationBarTitleText": "云之书",
         "navigationBarBackgroundColor": "#fb739a",
         "backgroundColor": "#F8F8F8",
-        "navigationStyle": "custom"
+        "navigationStyle": "custom",
+        "app-plus": {
+            "pullToRefresh": {
+                "color": "#fb739a"
+            }
+        }
     },
     "tabBar": {
         "color": "#757575",

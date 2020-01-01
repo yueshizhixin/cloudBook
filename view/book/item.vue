@@ -3,7 +3,7 @@
         <view class="container">
             <scroll-view :style="{'background-color': currentTheme.backgroundColor}" @click="contentTapHandler" @scroll="scrollChange" class="scroll" scroll-y="true" >
                 <view class="title-section">
-                    <text class="title" :style="{'color': currentTheme.color}">{{chapterTitle}}</text>
+                    <text class="title" :style="{'color': currentTheme.color,'font-size': fontSize+6+'px'}">{{chapterTitle}}</text>
                 </view>
                 <view class="content-section">
                     <text class="content" :style="{'font-size': fontSize+'px', 'color': currentTheme.color}">{{content}}</text>
@@ -22,7 +22,7 @@
             <view class="tool-section" :class="{'tool-show-section' :toolShow}">
                 <ss-toolbar @toolSliderChange="toolSliderChangeHandler" :chapter="chapter" @themeTap="themeHandler" @functionBtnTap="functionBtnHandler" @chapterBtnTap="chapterBtnHandler"></ss-toolbar>
             </view>
-            <view class="set-section" :class="{'set-show-section' :setShow}">
+            <view v-if="isFontSizeProcessed" class="set-section" :class="{'set-show-section' :setShow}">
                 <ss-setbar :defaultFontSize="fontSize" :isNightTheme="isNight" @brightChange="brightChangeHandler" @fontSizeChange="fontSizeChangeHandler"></ss-setbar>
             </view>
         </view>
@@ -35,6 +35,7 @@
     import ssToolbar from '@/component/ebook/ss-toolbar/ss-toolbar.vue'
     import uParse from '@/component/ebook/gaoyia-parse/parse.vue'
     import ssSetbar from '@/component/ebook/ss-setbar/ss-setbar.vue'
+    import styleConf from '@/js/css'
 
 
     export default {
@@ -59,19 +60,19 @@
                 content: '',
                 chapterTitle: '',
                 currentChapter: 0, // 当前的章节数 默认从0开始
-                fontSize: 23,
+                fontSize: 10,
                 nightTheme: {
                     backgroundColor: '#161616',
                     color: '#4f5050'
                 },
                 dayTheme: {
-                    backgroundColor: '#f7f7f7',
-                    color: '#333'
+                    backgroundColor: '#f6f4ec',
+                    color: '#000'
                 },
                 // 默认采用白天的主题样式
                 currentTheme: {
-                    backgroundColor: '#f7f7f7',
-                    color: '#333'
+                    backgroundColor: styleConf.color_ebook,
+                    color: '#000'
                 },
                 // 是否为夜间模式 默认值为false
                 isNight: false,
@@ -95,6 +96,7 @@
                     loadable: 1,//能否进行加载操作 默认是
                 },
                 menubarShow:false,//上一页 设置 下一页显示
+                isFontSizeProcessed:false,//处理完大体大小再显示
             }
         },
         onLoad(p) {
@@ -113,25 +115,56 @@
             }
         },
         onShow() {
-
         },
         async onReady() {
             this.getEbookChapterList();
             this.getChapterContent()
+            this.$nextTick(() => {
+                let setting=this.getData({key:`setting`}) || {}
+                if(!setting.font){
+                    setting.font={
+                        size:10
+                    }
+                }
+                this.fontSize=setting.font.size
+                this.isFontSizeProcessed=true;
+            })
             setTimeout(()=>{
                this.menubarShow=true;
             },7000)
+
         },
         methods: {
 
-            //上一页
+            //自动缓存 先5章
+            async autoLoadNextChapter() {
+                for (let i = this.chapterId; i <= this.chapterId + 4; i++) {
+                    if(this.getData({key:`book${this.bookId}chapter${i}`})){
+                        console.log(`本章节已存在 跳过预缓存`,i)
+                        continue;
+                    }
+                    let d = await this.GET(`/api/v1/book/chapter/${i}/content`, {})
+                    if (d.ok !== 1 || !d.data || !d.data.content) {
+                        console.log(`预缓存失败 ${i}`)
+                        continue;
+                    }
+                    let data = d.data.content
+                    this.setData({
+                        key: `book${this.bookId}chapter${i}`,
+                        data: data.replace(/<br>\r/g, '')
+                    })
+                    console.log(`预缓存成功 ${i}`)
+                }
+            },
+
+            //上一章
             prePage() {
                 uni.redirectTo({
                     url:`/view/book/item?id=${this.bookId}&chapterId=${this.chapterId-1}`
                 })
             },
 
-            //下一页
+            //下一章
             nextPage() {
                 uni.redirectTo({
                     url:`/view/book/item?id=${this.bookId}&chapterId=${this.chapterId+1}`
@@ -190,10 +223,6 @@
                     this.page.loaded=1
                 }
 
-                // let chapter = this.chapterList[0];
-                // this.chapter = chapter;
-                // this.chapterTitle = chapter.title;
-                // this.getChapterContent(chapter.number);
             },
 
             //获取本章节内容
@@ -222,6 +251,13 @@
                         this.$api.msg(`标题获取失败 ${d.msg}`);
                     }
                     this.chapterTitle=d.data.title
+                    uni.setNavigationBarTitle({
+                        title:this.chapterTitle
+                    })
+                    // uni.setNavigationBarColor({
+                    //     frontColor:`#000000`,
+                    //     backgroundColor:this.$css.color_ebook
+                    // })
 
                 }).catch(e=>{
                     console.log(e)
@@ -248,28 +284,28 @@
                     this.content=data.replace(/<br>\r/g,'')
                     this.hideLoading()
 
-                    /**
-                     * 更新阅读记录
-                     */
-                    this.PUT(`/api/v1/book/${this.bookId}/chapter/${this.chapterId}`,{}).then(d=>{
-                        if (d.ok === 0) {
-                            this.$api.msg(`同步阅读记录失败 ${d.msg}`)
-                            return;
-                        }
-                        console.log('同步阅读记录成功')
-
-                    }).catch(e=>{
-                        this.$api.msg('同步阅读记录失败')
-                    })
-
                     this.setData({
                         key: `book${this.bookId}chapter${this.chapterId}`,
                         data:this.content
                     },false)
                 }
+                /**
+                 * 更新阅读记录
+                 */
+                this.PUT(`/api/v1/book/${this.bookId}/chapter/${this.chapterId}`,{}).then(d=>{
+                    if (d.ok === 0) {
+                        this.$api.msg(`同步阅读记录失败 ${d.msg}`)
+                        return;
+                    }
+                    console.log('同步阅读记录成功')
+                }).catch(e=>{
+                    this.$api.msg('同步阅读记录失败')
+                })
 
                 this.calcTextArr()
                 this.calculateScreenSize();
+
+                this.autoLoadNextChapter()
             },
 
 
@@ -424,6 +460,9 @@
              * 字体变化
              */
             fontSizeChangeHandler (fontSize) {
+                let setting=this.getData({key:`setting`})
+                setting.font.size=fontSize
+                this.setData({key:`setting`,data:setting})
                 this.fontSize = fontSize;
                 console.log('fontSize变化了:' + this.fontSize)
             },
@@ -501,7 +540,7 @@
             bottom: 0upx;
             right: 0upx;
             display: flex;
-            transition: .7s;
+            transition: .2s;
             background-color: rgba(0, 0, 0, 0);
             visibility: hidden;
             animation-delay: .2s;
@@ -510,7 +549,7 @@
                 height: 100%;
                 width: 80%;
                 transform: translateX(-100%);
-                transition: .7s;
+                transition: .2s;
             }
 
             .slider-show-section {
@@ -530,7 +569,7 @@
             bottom: 0upx;
             right: 0upx;
             transform: translateY(100%);
-            transition: .7s;
+            transition: .2s;
         }
 
         .set-show-section {
@@ -544,7 +583,7 @@
             bottom: 0upx;
             right: 0upx;
             transform: translateY(100%);
-            transition: .7s;
+            transition: .2s;
         }
 
         .tool-show-section {

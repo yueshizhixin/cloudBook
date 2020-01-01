@@ -8,7 +8,7 @@
                     style="padding-right: 30rpx"
                 >
 					<view class="uni-navbar__content_view" v-if="leftIcon.length">
-						<uni-icons :color="color" :type="leftIcon" size="24" />
+						<uni-icons :color="color" style="padding-top: 20rpx;" :type="leftIcon" size="24" />
 					</view>
 					<view :class="{ 'uni-navbar-btn-icon-left': !leftIcon.length }" class="uni-navbar-btn-text uni-navbar__content_view"
 					 v-if="leftText.length">
@@ -127,6 +127,7 @@
 		/* #ifndef APP-PLUS */
 		font-size: $uni-font-size-lg;
 		/* #endif */
+		margin-top: 16rpx;
 	}
 	.uni-nav-bar-right-text {
 		font-size: $uni-font-size-base;
