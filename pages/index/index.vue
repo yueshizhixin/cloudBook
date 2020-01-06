@@ -59,6 +59,14 @@
 
 		},
         onShow() {
+            let isNeedReload_page_index=this.getData({key:`isNeedReload_page_index`}) || 0
+            console.log('isNeedReload_page_index',isNeedReload_page_index)
+            if (isNeedReload_page_index && this.page.loaded) {
+                console.log('需要重新加载')
+                this.pageInit()
+                this.getBookList()
+                uni.setStorageSync(`isNeedReload_page_index`, 0)
+            }
         },
         onReady() {
             this.getBookList()

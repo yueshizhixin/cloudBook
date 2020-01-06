@@ -120,7 +120,7 @@
             this.getEbookChapterList();
             this.getChapterContent()
             this.$nextTick(() => {
-                let setting=this.getData({key:`setting`}) || {}
+                let setting=this.getData({key:`setting`,data:1}) || {}
                 if(!setting.font){
                     setting.font={
                         size:10
@@ -132,6 +132,9 @@
             setTimeout(()=>{
                this.menubarShow=true;
             },7000)
+
+            //从此处返回首页数据自动加载
+            this.setData({key:`isNeedReload_page_index`,data:1})
 
         },
         methods: {
