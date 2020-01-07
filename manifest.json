@@ -58,9 +58,9 @@
             "sdkConfigs" : {},
             "splashscreen" : {
                 "android" : {
-                    "hdpi" : "D:/HBuilderProjects_my/cloudBook/static/start2.png",
-                    "xhdpi" : "D:/HBuilderProjects_my/cloudBook/static/start2.png",
-                    "xxhdpi" : "D:/HBuilderProjects_my/cloudBook/static/start2.png"
+                    "hdpi" : "D:/HBuilderProjects_my/cloudBook/static/start3.png",
+                    "xhdpi" : "D:/HBuilderProjects_my/cloudBook/static/start3.png",
+                    "xxhdpi" : "D:/HBuilderProjects_my/cloudBook/static/start3.png"
                 }
             },
             "icons" : {
