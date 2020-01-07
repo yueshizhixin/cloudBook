@@ -26,6 +26,14 @@
 <style lang="scss">
     @import "static/css/icon.css";
 
+    /*公共定义 放在uni.scss里总会下边覆盖上边*/
+    /* #ifdef APP-PLUS */
+    $height-app-top:30rpx;
+    /*#endif */
+    /*#ifndef APP-PLUS*/
+    $height-app-top:0upx;
+    /*#endif */
+
     uni-image {
         width: 100%;
     }

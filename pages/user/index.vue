@@ -1,6 +1,6 @@
 <template>
 
-    <view class="page-comm tabber-page">
+    <view class="page-comm tabber-page" style="overflow-x:hidden;">
         <!--标题栏-->
 
         <view >
@@ -47,12 +47,21 @@
 </script>
 
 <style lang="scss">
-	.bg{
+
+    /*公共定义 放在uni.scss里总会下边覆盖上边*/
+    /* #ifdef APP-PLUS */
+    $height-app-top:30rpx;
+    /*#endif */
+    /*#ifndef APP-PLUS*/
+    $height-app-top:0upx;
+    /*#endif */
+
+    .bg{
 
         z-index: 1;
         position: relative;
         width: 750upx;
-        height: 480upx;
+        height: calc(480upx + #{$height-app-top});
         background-color: $color-primary;
         color:white;
         text-align: center;
@@ -61,6 +70,7 @@
             text-align: right;
             display: block;
             padding: 30upx 30upx 0 0;
+            padding-top: calc(40upx + #{$height-app-top});
 
         }
         .name{
@@ -73,7 +83,7 @@
         .img-container{
             position: absolute;
             left: 0;
-            top:290upx;
+            top:calc(290upx + #{$height-app-top});
             height: 200upx;
             width: 750upx;
             z-index: 9999;
@@ -91,10 +101,10 @@
         background-color: $color-bg;
         z-index: 99;
         position: absolute;
-        top:400upx;
+        top:calc(400upx + #{$height-app-top});
         right: -50upx;
         width: 850upx;
-        height: 160upx;
+        height: calc(160upx + #{$height-app-top});
         content: '';
         transform: rotate(-12deg);
     }

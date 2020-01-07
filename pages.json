@@ -15,9 +15,7 @@
         },
         {
             "path": "pages/user/index",
-            "style": {
-                "enablePullDownRefresh": true
-            }
+            "style": {}
         }
     ],
     "subPackages": [

@@ -116,7 +116,7 @@
                     margin-left: 128upx;
                     color:#333;
                     .updateTime{
-                        float: right;font-size: 22upx;margin-top: -26upx;color:#888;
+                        float: right;font-size: 22upx;margin-top: -30upx;color:#888;
                     }
                 }
 
