@@ -65,10 +65,10 @@
             },
             "icons" : {
                 "android" : {
-                    "hdpi" : "D:/HBuilderProjects_my/cloudBook/static/logo.PNG",
-                    "xhdpi" : "D:/HBuilderProjects_my/cloudBook/static/logo.PNG",
-                    "xxhdpi" : "D:/HBuilderProjects_my/cloudBook/static/logo.PNG",
-                    "xxxhdpi" : "D:/HBuilderProjects_my/cloudBook/static/logo.PNG"
+                    "hdpi" : "D:/HBuilderProjects_my/cloudBook/static/logo2.png",
+                    "xhdpi" : "D:/HBuilderProjects_my/cloudBook/static/logo2.png",
+                    "xxhdpi" : "D:/HBuilderProjects_my/cloudBook/static/logo2.png",
+                    "xxxhdpi" : "D:/HBuilderProjects_my/cloudBook/static/logo2.png"
                 }
             }
         }
