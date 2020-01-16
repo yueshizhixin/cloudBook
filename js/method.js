@@ -104,13 +104,14 @@ const method = {
                     data: data,
                     header: header,
                     method: type,
-                    timeout:10000,
+                    // timeout:10000,
                     success: (res) => {
                         if (res.statusCode === 200) {
                             let data = JSON.parse(res.data)
                             if (data.code === 401) {
                                 console.log('httpRequest 401')
-                                method.navToSign()
+                                api.msg(`请登录`)
+                                setTimeout(method.navToSign(),1000)
                             } else if (data.code === 403) {
                                 console.log('httpRequest 403')
                                 api.msg(`无权限`)
@@ -125,15 +126,15 @@ const method = {
                         } else {
                             console.log('httpRequest status<>200', res)
                             method.hideLoading()
-                            api.msg('请求失败')
+                            api.msg('网络请求失败了')
                         }
                     },
-                    error: (e) => {
-                        console.log('httpRequest error', e)
+                    fail: (e) => {
+                        console.log('httpRequest fail', e)
                         reject({
                             code: 200,
                             ok: 0,
-                            msg: '请求失败',
+                            msg: '请求失败啦',
                         })
                     }
                 });

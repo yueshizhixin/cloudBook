@@ -101,9 +101,13 @@
                 this.page.loading=1
                 this.GET(`/api/v1/book/shelf`, this.page).then(d => {
                     console.log(d)
+                    if (d.ok === 0) {
+                        this.$api.msg(d.msg)
+                        return;
+                    }
                     d.data.forEach(x=>{
                         x.bookImage=x.bookImageAlign
-                    })
+                    });
                     this.list.push(...d.data)
                     this.setData({
                         key:'book_shelf',
@@ -118,7 +122,8 @@
                     this.page.loaded=1
                     uni.stopPullDownRefresh();
                 }).catch(e => {
-                    console.log(e)
+                    console.log(`出错了`,e)
+                    this.$api.msg(e.msg || `操作失败`)
                     this.page.loading=0
                     uni.stopPullDownRefresh();
                 })

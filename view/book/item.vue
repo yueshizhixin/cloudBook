@@ -86,7 +86,8 @@
                 readMode:`page`,
                 textArr:[],//文字内容数组
                 bookId:0,
-                chapterId:0,
+                lineId:1,
+                chapterNo:0,
                 //目录title page
                 page: {
                     limit: 20,
@@ -106,12 +107,12 @@
                 this.navBack()
             }
             this.bookId=Number(this.bookId)
-            if(p.chapterId){
-                this.chapterId=p.chapterId
-                if(!this.$reg.uintno0.test(this.chapterId)){
+            if(p.chapterNo){
+                this.chapterNo=p.chapterNo
+                if(!this.$reg.uintno0.test(this.chapterNo)){
                     this.navBack()
                 }
-                this.chapterId=Number(this.chapterId)
+                this.chapterNo=Number(this.chapterNo)
             }
         },
         onShow() {
@@ -141,12 +142,12 @@
 
             //自动缓存 先5章
             async autoLoadNextChapter() {
-                for (let i = this.chapterId; i <= this.chapterId + 4; i++) {
+                for (let i = this.chapterNo; i <= this.chapterNo + 4; i++) {
                     if(this.getData({key:`book${this.bookId}chapter${i}`})){
                         console.log(`本章节已存在 跳过预缓存`,i)
                         continue;
                     }
-                    let d = await this.GET(`/api/v1/book/chapter/${i}/content`, {})
+                    let d = await this.GET(`/api/v1/book/${this.bookId}/chapter/${i}/content`, {})
                     if (d.ok !== 1 || !d.data || !d.data.content) {
                         console.log(`预缓存失败 ${i}`)
                         continue;
@@ -163,14 +164,14 @@
             //上一章
             prePage() {
                 uni.redirectTo({
-                    url:`/view/book/item?id=${this.bookId}&chapterId=${this.chapterId-1}`
+                    url:`/view/book/item?id=${this.bookId}&chapterNo=${this.chapterNo-1}`
                 })
             },
 
             //下一章
             nextPage() {
                 uni.redirectTo({
-                    url:`/view/book/item?id=${this.bookId}&chapterId=${this.chapterId+1}`
+                    url:`/view/book/item?id=${this.bookId}&chapterNo=${this.chapterNo+1}`
                 })
             },
 
@@ -233,22 +234,22 @@
                 /**
                  * 从书架里进入不传章节 获取书架的缓存
                  */
-                if(this.chapterId===0){
+                if(this.chapterNo===0){
                     if(num===-1){
                         let shelf=this.getData({key:`book_shelf`})
                         console.log('书架缓存',shelf)
                         let book=shelf.find(x=>x.bookId===this.bookId)
                         console.log('书架缓存 book',book)
-                        num=book.chapterId
+                        num=book.chapterNo
                     }
-                    this.chapterId=num
+                    this.chapterNo=num
                 }
 
                 /**
                  * 获取标题
                  * 先临时这样 最终用左侧列表
                  */
-                this.GET(`/api/v1/book/chapter/${this.chapterId}/title`,{}).then(d=>{
+                this.GET(`/api/v1/book/${this.bookId}/chapter/${this.chapterNo}/title`,{}).then(d=>{
                     console.log(`标题`,d)
                     if (d.ok === 0) {
                         this.$api.msg(`标题获取失败 ${d.msg}`);
@@ -271,12 +272,12 @@
                 /**
                  * 缓存里有无此书
                  */
-                let cache_book_content = this.getData({key: `book${this.bookId}chapter${this.chapterId}`})
+                let cache_book_content = this.getData({key: `book${this.bookId}chapter${this.chapterNo}`})
                 if(cache_book_content){
                     this.content=cache_book_content
                 }else{
                     this.showLoading()
-                    let d=await this.GET(`/api/v1/book/chapter/${this.chapterId}/content`,{})
+                    let d=await this.GET(`/api/v1/book/${this.bookId}/chapter/${this.chapterNo}/content`,{})
 
                     if(d.ok!==1 || !d.data || !d.data.content){
                         this.$api.msg("获取章节内容失败")
@@ -288,14 +289,14 @@
                     this.hideLoading()
 
                     this.setData({
-                        key: `book${this.bookId}chapter${this.chapterId}`,
+                        key: `book${this.bookId}chapter${this.chapterNo}`,
                         data:this.content
                     },false)
                 }
                 /**
                  * 更新阅读记录
                  */
-                this.PUT(`/api/v1/book/${this.bookId}/chapter/${this.chapterId}`,{}).then(d=>{
+                this.PUT(`/api/v1/book/${this.bookId}/chapter/${this.chapterNo}`,{}).then(d=>{
                     if (d.ok === 0) {
                         this.$api.msg(`同步阅读记录失败 ${d.msg}`)
                         return;
