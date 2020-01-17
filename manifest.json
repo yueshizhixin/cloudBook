@@ -2,17 +2,15 @@
     "name" : "云之书",
     "appid" : "__UNI__A18FF2F",
     "description" : "云之书",
-    "versionName" : "0.1.2",
-    "versionCode" : 102,
+    "versionName" : "0.2.1",
+    "versionCode" : 104,
     "transformPx" : false,
-
-    "networkTimeout":{
-        "request":15000,
-        "connectSocket":15000,
-        "uploadFile":15000,
-        "downloadFile":15000
+    "networkTimeout" : {
+        "request" : 15000,
+        "connectSocket" : 15000,
+        "uploadFile" : 15000,
+        "downloadFile" : 15000
     },
-
     /* 5+App特有相关 */
     "app-plus" : {
         "usingComponents" : true,
@@ -43,9 +41,9 @@
             "sdkConfigs" : {},
             "splashscreen" : {
                 "android" : {
-                    "hdpi" : "static/start3.png",
-                    "xhdpi" : "static/start3.png",
-                    "xxhdpi" : "static/start3.png"
+                    "hdpi" : "static/start4.png",
+                    "xhdpi" : "static/start4.png",
+                    "xxhdpi" : "static/start4.png"
                 }
             },
             "icons" : {
