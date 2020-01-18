@@ -50,7 +50,7 @@
             },
 
             gotoItem(item) {
-                this.navTo(`/view/book/item?id=${item.id}`)
+                this.navTo(`/view/book/item?id=${item.bookId}`)
             }
         }
     }
