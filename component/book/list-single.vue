@@ -68,7 +68,10 @@
             .desc-container{
                 padding:0 30upx 40upx 30upx;
                 .author-img{
-                    width: 100upx;height: 100upx;border: solid 4upx white;border-radius: 50%;
+                    width: 100upx;
+                    height: 100upx;
+                    /*border: solid 4upx white;*/
+                    border-radius: 50%;
                     float: left;margin-top: -6upx;
                 }
                 .title{
@@ -107,7 +110,8 @@
             .desc-container{
                 padding:0 0upx 0upx 0upx;
                 .author-img{
-                    width: 100upx;height: 100upx;border-radius: 50%;
+                    width: 100upx;height: 100upx;
+                    border-radius: 50%;
                     float: left;margin-top: -6upx;
                     /*border: solid 4upx white;*/
                 }
