@@ -2,8 +2,8 @@
     "name" : "云之书",
     "appid" : "__UNI__A18FF2F",
     "description" : "云之书",
-    "versionName" : "0.2.0",
-    "versionCode" : 104,
+    "versionName" : "v0.2.1",
+    "versionCode" : 105,
     "transformPx" : false,
     "networkTimeout" : {
         "request" : 15000,
