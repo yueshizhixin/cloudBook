@@ -94,8 +94,10 @@ const method = {
 
     //公共请求
     async httpRequest(url, data, type) {
+        let jwt=uni.getStorageSync(`jwt`) || `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1c2VyIiwiaWQiOiIyIiwiZXhwIjoxNTc4NDc4ODg2fQ.O_kD6gy9uxLiWVAv25euuVeASpHL55tz_P4Z3V0PtO4`
         let header= {
-            "content-type": "application/x-www-form-urlencoded;charset=UTF-8"
+            "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
+            "authorization":jwt,
         }
         try {
             return new Promise((resolve, reject) => {

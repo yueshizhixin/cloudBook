@@ -39,9 +39,17 @@
             this.authorCheck()
         },
         onReady() {
+            this.getMyMessage()
         },
 		methods: {
-
+            getMyMessage() {
+                this.GET(`/api/v1/user/tag=me`, this.user).then((data) => {
+                    console.log('我的信息', data)
+                }).catch(e => {
+                    console.log(e)
+                    this.$api.msg(`操作失败`)
+                })
+            },
 		}
 	}
 </script>
