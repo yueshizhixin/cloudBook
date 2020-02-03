@@ -9,13 +9,13 @@
                     <view @tap="navTo(`/view/user/setting`)" class="cuIcon-settings"></view>
                 </view>
                 <view class="name" @tap="navTo(`no`)">
-                    大乘期修士
+                    {{user.nickName}}
                 </view>
                 <view class="tip" @tap="navTo(`no`)">
                     趁生命气息逗留
                 </view>
                 <view class="img-container">
-                    <image @tap="navTo(`no`)" src="http://cdn.yueshizhixin.top/asset/bg/e365d2e9a70828414ff0ff30b6f9f4df.jpg?imageView2/1/w/300/h/300"
+                    <image @tap="navTo(`no`)" :src="user.headImg"
                         class="img"
                     >
                     </image>
@@ -30,22 +30,31 @@
 	export default {
 		data() {
 			return {
+			    user:{}
 			}
 		},
-        onLoad(p) {
-            this.authorCheck()
-        },
+        onLoad(p) {},
         onShow() {
-            this.authorCheck()
+            this.authCheck()
         },
         onReady() {
             this.getMyMessage()
         },
+        onPullDownRefresh() {
+            this.getMyMessage()
+        },
 		methods: {
             getMyMessage() {
-                this.GET(`/api/v1/user/tag=me`, this.user).then((data) => {
-                    console.log('我的信息', data)
+                this.GET(`/api/v1/user/tag=me`, this.user).then(d => {
+                    uni.stopPullDownRefresh();
+                    console.log('我的信息', d)
+                    if (d.ok === 0) {
+                        this.$api.msg(d.msg);
+                        return;
+                    }
+                    this.user=d.data;
                 }).catch(e => {
+                    uni.stopPullDownRefresh();
                     console.log(e)
                     this.$api.msg(`操作失败`)
                 })

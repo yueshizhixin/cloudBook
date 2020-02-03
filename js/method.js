@@ -2,25 +2,6 @@ import api from './api'
 import conf from './conf'
 
 const method = {
-
-    //缓存数据 默认同步
-    getData(item, sync = true) {
-        if (!item.key) return null;
-        if (sync) { //同步
-            return uni.getStorageSync(item.key)
-        } else { //异步
-            return uni.getStorage(item)
-        }
-    },
-    //缓存数据 默认同步
-    setData(item, sync = true) {
-        if (!item.key || !item.data) return null;
-        if (sync) { //同步
-            uni.setStorageSync(item.key, item.data)
-        } else { //异步
-            uni.setStorage(item)
-        }
-    },
     //页面跳转
     navTo(url) {
         if (url == 'no') {
@@ -51,7 +32,7 @@ const method = {
             //是登录页
             if (pages[pages.length - 1].route == `view/user/signIn`) {
                 //是否登录
-                if (method.getData({key: 'user'})) {
+                if (method.authCheck(false)) {
                     uni.navigateBack()
                 } else {
                     method.navToIndex()
@@ -64,22 +45,30 @@ const method = {
         }
     },
     //权限检测
-    authorCheck() {
-        // let user = method.getData({key: 'user'})
+    authCheck(autoRedirect = true) {
+        // let user = uni.getStorageSync(`user`)
         // if (!user || user.id == 0) {
-        //     method.navToSign()
+        //     if (autoRedirect) {
+        //         method.navToSign();
+        //     } else {
+        //         return false;
+        //     }
         // }
-    },
-    //是否登录
-    authorIsign() {
+        // return true;
+        let jwt = uni.getStorageSync(`jwt`);
+        if (!jwt) {
+            if (autoRedirect) {
+                method.navToSign();
+            }
+            return false;
+        }
         return true;
     },
     //登出
     signOut() {
-        method.setData({
-            key: 'user',
-            data: null,
-        })
+        uni.setStorageSync('user', null,)
+        uni.setStorageSync('jwt', null,)
+
     },
 
     showLoading() {
@@ -93,11 +82,17 @@ const method = {
     },
 
     //公共请求
-    async httpRequest(url, data, type) {
-        let jwt=uni.getStorageSync(`jwt`) || `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1c2VyIiwiaWQiOiIyIiwiZXhwIjoxNTc4NDc4ODg2fQ.O_kD6gy9uxLiWVAv25euuVeASpHL55tz_P4Z3V0PtO4`
-        let header= {
+    async httpRequest(url, data, type, autoRedirect) {
+        let jwt = uni.getStorageSync(`jwt`) || ``
+        let header = {
             "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
-            "authorization":jwt,
+            "authorization": jwt,
+        }
+        let ar = autoRedirect
+        if (!ar) {
+            ar = {
+                http401: true,
+            }
         }
         try {
             return new Promise((resolve, reject) => {
@@ -106,14 +101,21 @@ const method = {
                     data: data,
                     header: header,
                     method: type,
-                    // timeout:10000,
                     success: (res) => {
                         if (res.statusCode === 200) {
                             let data = JSON.parse(res.data)
                             if (data.code === 401) {
                                 console.log('httpRequest 401')
-                                api.msg(`请登录`)
-                                setTimeout(method.navToSign(),1000)
+                                if (ar.http401) {
+                                    api.msg(`请登录`)
+                                    setTimeout(method.navToSign(), 1000)
+                                } else {
+                                    resolve({
+                                        code: 401,
+                                        ok: 1,
+                                        msg: `请登录`
+                                    })
+                                }
                             } else if (data.code === 403) {
                                 console.log('httpRequest 403')
                                 api.msg(`无权限`)
@@ -154,17 +156,17 @@ const method = {
     /**
      * http请求
      */
-    GET(url, data = {}) {
-        return method.httpRequest(url, data, 'GET')
+    GET(url, data = {}, autoRedirect) {
+        return method.httpRequest(url, data, 'GET', autoRedirect)
     },
-    POST(url, data = {}) {
-        return method.httpRequest(url, data, 'POST')
+    POST(url, data = {}, autoRedirect) {
+        return method.httpRequest(url, data, 'POST', autoRedirect)
     },
-    PUT(url, data = {}) {
-        return method.httpRequest(url, data, 'PUT')
+    PUT(url, data = {}, autoRedirect) {
+        return method.httpRequest(url, data, 'PUT', autoRedirect)
     },
-    DELETE(url, data = {}) {
-        return method.httpRequest(url, data, 'DELETE')
+    DELETE(url, data = {}, autoRedirect) {
+        return method.httpRequest(url, data, 'DELETE', autoRedirect)
     }
     /**
      * end
@@ -181,12 +183,8 @@ const util = {
         Vue.prototype.PUT = method.PUT
         Vue.prototype.DELETE = method.DELETE
 
-        Vue.prototype.authorCheck = method.authorCheck
-        Vue.prototype.authorIsign = method.authorIsign
+        Vue.prototype.authCheck = method.authCheck
         Vue.prototype.signOut = method.signOut
-
-        Vue.prototype.getData = method.getData
-        Vue.prototype.setData = method.setData
 
         Vue.prototype.showLoading = method.showLoading
         Vue.prototype.hideLoading = method.hideLoading

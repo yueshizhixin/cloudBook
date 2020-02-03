@@ -1,5 +1,5 @@
 <template>
-	<view class="page-comm tabber-page">
+    <view class="page-comm tabber-page">
         <uni-nav-bar :title="title">
             <view slot="right" class="cuIcon-search tabbar-icon-size" @tap="navTo(`no`)"></view>
         </uni-nav-bar>
@@ -19,14 +19,14 @@
     import listSingle from "@/component/book/list-single"
     import UniLoadMore from "@/component/comm/uni-load-more"
 
-	export default {
+    export default {
         components: {
-            uniNavBar,listSingle,UniLoadMore,
+            uniNavBar, listSingle, UniLoadMore,
         },
-		data() {
-			return {
-                title:'我的书架',
-                list:[],
+        data() {
+            return {
+                title: '我的书架',
+                list: [],
                 page: {
                     limit: 10,
                     offset: 1,
@@ -34,8 +34,8 @@
                     loaded: 0,//至少加载过一次 默认否
                     loadable: 1,//能否进行加载操作 默认是
                 }
-			}
-		},
+            }
+        },
         computed: {
             loadingStatus() {
                 let page = this.page
@@ -51,16 +51,15 @@
                 return ``
             },
             isEmpty() {
-                let page=this.page
+                let page = this.page
                 return page.loaded === 1 && page.loadable === 0;
             }
         },
-		onLoad() {
-
-		},
+        onLoad() {
+        },
         onShow() {
-            let isNeedReload_page_index=this.getData({key:`isNeedReload_page_index`}) || 0
-            console.log('isNeedReload_page_index',isNeedReload_page_index)
+            let isNeedReload_page_index = uni.getStorageSync(`isNeedReload_page_index`) || 0
+            console.log('isNeedReload_page_index', isNeedReload_page_index)
             if (isNeedReload_page_index && this.page.loaded) {
                 console.log('需要重新加载')
                 this.pageInit()
@@ -78,16 +77,16 @@
         onReachBottom() {
             this.getBookList()
         },
-		methods: {
+        methods: {
             pageInit() {
-                this.page={
+                this.page = {
                     limit: 10,
                     offset: 1,
                     loading: 0,//正在加载中 默认否
                     loaded: 0,//至少加载过一次 默认否
                     loadable: 1,//能否进行加载操作 默认是
                 }
-                this.list=[]
+                this.list = []
             },
             getBookList() {
                 if (this.page.loadable === 0) {
@@ -98,38 +97,45 @@
                     uni.stopPullDownRefresh();
                     return;
                 }
-                this.page.loading=1
-                this.GET(`/api/v1/book/shelf`, this.page).then(d => {
+                this.page.loading = 1
+                this.GET(`/api/v1/book/shelf`, this.page, {
+                    http401: false,
+                }).then(d => {
                     console.log(d)
-                    if (d.ok === 0) {
-                        this.$api.msg(d.msg)
+                    this.page.loading = 0
+                    uni.stopPullDownRefresh();
+
+                    if (d.code === 401) {
+                        this.$api.msg(d.msg);
                         return;
                     }
-                    d.data.forEach(x=>{
-                        x.bookImage=x.bookImageAlign
+                    if (d.ok === 0) {
+                        this.$api.msg(d.msg);
+                        return;
+                    }
+                    d.data.forEach(x => {
+                        x.bookImage = x.bookImageAlign
                     });
                     this.list.push(...d.data)
-                    this.setData({
-                        key:'book_shelf',
-                        data:this.list,
-                    },false)
+                    uni.getStorage({
+                        key: 'book_shelf',
+                        data: this.list,
+                    })
 
-                    if(d.data.length<this.page.limit){
-                        this.page.loadable=0
+                    if (d.data.length < this.page.limit) {
+                        this.page.loadable = 0
                     }
                     this.page.offset++
-                    this.page.loading=0
-                    this.page.loaded=1
-                    uni.stopPullDownRefresh();
+                    this.page.loaded = 1
                 }).catch(e => {
-                    console.log(`出错了`,e)
+                    console.log(`出错了`, e)
                     this.$api.msg(e.msg || `操作失败`)
-                    this.page.loading=0
+                    this.page.loading = 0
                     uni.stopPullDownRefresh();
                 })
             }
-		}
-	}
+        }
+    }
 </script>
 
 <style lang="scss">

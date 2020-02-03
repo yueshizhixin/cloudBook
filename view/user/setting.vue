@@ -69,10 +69,10 @@
             }
         },
         onLoad(p) {
-            this.authorCheck()
+            this.authCheck()
         },
         onShow() {
-            this.authorCheck()
+            this.authCheck()
         },
         onReady() {
         },
@@ -82,11 +82,8 @@
                 this.$refs.modal.handleShow({success})
                 function success(d) {
                     if (d.id !== 1) return;
-                    this.POST(`/api/v1/user/tag=sign=out`, {}).then(d => {
-                        console.log('退出', d)
-                    }).catch(e => {
-                        console.log(e)
-                    })
+                    this.signOut()
+                    this.navBack()
                 }
             },
         }

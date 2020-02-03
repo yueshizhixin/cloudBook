@@ -1,29 +1,43 @@
 <template>
     <view>
         <view class="container">
-            <scroll-view :style="{'background-color': currentTheme.backgroundColor}" @click="contentTapHandler" @scroll="scrollChange" class="scroll" scroll-y="true" >
+            <scroll-view :style="{'background-color': currentTheme.backgroundColor}" @click="contentTapHandler"
+                         @scroll="scrollChange" class="scroll" scroll-y="true">
                 <view class="title-section">
-                    <text class="title" :style="{'color': currentTheme.color,'font-size': fontSize+6+'px'}">{{chapterTitle}}</text>
+                    <text class="title" :style="{'color': currentTheme.color,'font-size': fontSize+6+'px'}">
+                        {{chapterTitle}}
+                    </text>
                 </view>
                 <view class="content-section">
-                    <text class="content" :style="{'font-size': fontSize+'px', 'color': currentTheme.color}">{{content}}</text>
+                    <text class="content" :style="{'font-size': fontSize+'px', 'color': currentTheme.color}">
+                        {{content}}
+                    </text>
                 </view>
                 <view class="bottom-section" v-if="menubarShow">
-                    <button @click="bottomBtnHandler('pre')" class="bottom-btn" :class="{'bottom-night-btn': isNight}" type="primary">上一章</button>
-                    <button @click="bottomBtnHandler('chapters')" class="bottom-btn" :class="{'bottom-night-btn': isNight}" type="primary">目录</button>
-                    <button @click="bottomBtnHandler('next')" class="bottom-btn" :class="{'bottom-night-btn': isNight}" type="primary">下一章</button>
+                    <button @click="bottomBtnHandler('pre')" class="bottom-btn" :class="{'bottom-night-btn': isNight}"
+                            type="primary">上一章
+                    </button>
+                    <button @click="bottomBtnHandler('chapters')" class="bottom-btn"
+                            :class="{'bottom-night-btn': isNight}" type="primary">目录
+                    </button>
+                    <button @click="bottomBtnHandler('next')" class="bottom-btn" :class="{'bottom-night-btn': isNight}"
+                            type="primary">下一章
+                    </button>
                 </view>
             </scroll-view>
             <view @click="maskHandler" class="slider-mask" :class="{'slider-show-mask' :sliderShow}">
                 <view @click="sliderHandler" class="slider-section" :class="{'slider-show-section' :sliderShow}">
-                    <ss-sliderbar :isNightTheme="isNight" @chapterItemTap="chapterItemHandler" :currentChapter="currentChapter" :chapterList="chapterList"></ss-sliderbar>
+                    <ss-sliderbar :isNightTheme="isNight" @chapterItemTap="chapterItemHandler"
+                                  :currentChapter="currentChapter" :chapterList="chapterList"></ss-sliderbar>
                 </view>
             </view>
             <view class="tool-section" :class="{'tool-show-section' :toolShow}">
-                <ss-toolbar @toolSliderChange="toolSliderChangeHandler" :chapter="chapter" @themeTap="themeHandler" @functionBtnTap="functionBtnHandler" @chapterBtnTap="chapterBtnHandler"></ss-toolbar>
+                <ss-toolbar @toolSliderChange="toolSliderChangeHandler" :chapter="chapter" @themeTap="themeHandler"
+                            @functionBtnTap="functionBtnHandler" @chapterBtnTap="chapterBtnHandler"></ss-toolbar>
             </view>
             <view v-if="isFontSizeProcessed" class="set-section" :class="{'set-show-section' :setShow}">
-                <ss-setbar :defaultFontSize="fontSize" :isNightTheme="isNight" @brightChange="brightChangeHandler" @fontSizeChange="fontSizeChangeHandler"></ss-setbar>
+                <ss-setbar :defaultFontSize="fontSize" :isNightTheme="isNight" @brightChange="brightChangeHandler"
+                           @fontSizeChange="fontSizeChangeHandler"></ss-setbar>
             </view>
         </view>
     </view>
@@ -45,7 +59,7 @@
             uParse,
             ssSetbar
         },
-        data () {
+        data() {
             return {
                 /**
                  * ---------自带的 start------------
@@ -83,11 +97,11 @@
 
 
                 // 阅读模式 page scroll
-                readMode:`page`,
-                textArr:[],//文字内容数组
-                bookId:0,
-                lineId:1,
-                chapterNo:0,
+                readMode: `page`,
+                textArr: [],//文字内容数组
+                bookId: 0,
+                lineId: 1,
+                chapterNo: 0,
                 //目录title page
                 page: {
                     limit: 20,
@@ -96,23 +110,23 @@
                     loaded: 0,//至少加载过一次 默认否
                     loadable: 1,//能否进行加载操作 默认是
                 },
-                menubarShow:false,//上一页 设置 下一页显示
-                isFontSizeProcessed:false,//处理完大体大小再显示
+                menubarShow: false,//上一页 设置 下一页显示
+                isFontSizeProcessed: false,//处理完大体大小再显示
             }
         },
         onLoad(p) {
-            this.menubarShow=false;
-            this.bookId=p.id || 0
-            if(!this.$reg.uintno0.test(this.bookId)){
+            this.menubarShow = false;
+            this.bookId = p.id || 0
+            if (!this.$reg.uintno0.test(this.bookId)) {
                 this.navBack()
             }
-            this.bookId=Number(this.bookId)
-            if(p.chapterNo){
-                this.chapterNo=p.chapterNo
-                if(!this.$reg.uintno0.test(this.chapterNo)){
+            this.bookId = Number(this.bookId)
+            if (p.chapterNo) {
+                this.chapterNo = p.chapterNo
+                if (!this.$reg.uintno0.test(this.chapterNo)) {
                     this.navBack()
                 }
-                this.chapterNo=Number(this.chapterNo)
+                this.chapterNo = Number(this.chapterNo)
             }
         },
         onShow() {
@@ -121,21 +135,21 @@
             this.getEbookChapterList();
             this.getChapterContent()
             this.$nextTick(() => {
-                let setting=this.getData({key:`setting`,data:1}) || {}
-                if(!setting.font){
-                    setting.font={
-                        size:10
+                let setting = uni.getStorageSync(`setting`) || {}
+                if (!setting.font) {
+                    setting.font = {
+                        size: 10
                     }
                 }
-                this.fontSize=setting.font.size
-                this.isFontSizeProcessed=true;
+                this.fontSize = setting.font.size
+                this.isFontSizeProcessed = true;
             })
-            setTimeout(()=>{
-               this.menubarShow=true;
-            },7000)
+            setTimeout(() => {
+                this.menubarShow = true;
+            }, 7000)
 
             //从此处返回首页数据自动加载
-            this.setData({key:`isNeedReload_page_index`,data:1})
+            uni.getStorageSync(`isNeedReload_page_index`, 1)
 
         },
         methods: {
@@ -143,8 +157,8 @@
             //自动缓存 先5章
             async autoLoadNextChapter() {
                 for (let i = this.chapterNo; i <= this.chapterNo + 4; i++) {
-                    if(this.getData({key:`book${this.bookId}chapter${i}`})){
-                        console.log(`本章节已存在 跳过预缓存`,i)
+                    if (uni.getStorageSync( `book${this.bookId}chapter${i}`)) {
+                        console.log(`本章节已存在 跳过预缓存`, i)
                         continue;
                     }
                     let d = await this.GET(`/api/v1/book/${this.bookId}/chapter/${i}/content`, {})
@@ -153,10 +167,10 @@
                         continue;
                     }
                     let data = d.data.content
-                    this.setData({
-                        key: `book${this.bookId}chapter${i}`,
-                        data: data.replace(/<br>\r/g, '')
-                    })
+                    uni.getStorageSync(
+                        `book${this.bookId}chapter${i}`,
+                        data.replace(/<br>\r/g, '')
+                    )
                     console.log(`预缓存成功 ${i}`)
                 }
             },
@@ -164,20 +178,20 @@
             //上一章
             prePage() {
                 uni.redirectTo({
-                    url:`/view/book/item?id=${this.bookId}&chapterNo=${this.chapterNo-1}`
+                    url: `/view/book/item?id=${this.bookId}&chapterNo=${this.chapterNo - 1}`
                 })
             },
 
             //下一章
             nextPage() {
                 uni.redirectTo({
-                    url:`/view/book/item?id=${this.bookId}&chapterNo=${this.chapterNo+1}`
+                    url: `/view/book/item?id=${this.bookId}&chapterNo=${this.chapterNo + 1}`
                 })
             },
 
             //计算文字数组
             calcTextArr() {
-                if(!this.content || !this.fontSize){
+                if (!this.content || !this.fontSize) {
                     return;
                 }
 
@@ -192,9 +206,9 @@
              */
 
             //计算屏幕大小
-            calculateScreenSize () {
+            calculateScreenSize() {
                 let info = uni.getSystemInfoSync();
-                console.log('系统信息',JSON.stringify(info));
+                console.log('系统信息', JSON.stringify(info));
                 this.screenHeight = info.safeArea.height;
                 this.screenWidth = info.safeArea.width;
             },
@@ -212,58 +226,58 @@
                     uni.stopPullDownRefresh();
                     return;
                 }
-                this.page.loading=1
-                this.page.bookId=this.bookId
-                let d=await this.GET(`/api/v1/book/${this.bookId}/chapter`,this.page)
-                console.log('目录',d)
-                this.page.loading=0
+                this.page.loading = 1
+                this.page.bookId = this.bookId
+                let d = await this.GET(`/api/v1/book/${this.bookId}/chapter`, this.page)
+                console.log('目录', d)
+                this.page.loading = 0
                 uni.stopPullDownRefresh();
-                if(d.ok===1){
+                if (d.ok === 1) {
                     this.chapterList.push(...d.data)
-                    if(d.data.length<this.page.limit){
-                        this.page.loadable=0
+                    if (d.data.length < this.page.limit) {
+                        this.page.loadable = 0
                     }
                     this.page.offset++
-                    this.page.loaded=1
+                    this.page.loaded = 1
                 }
 
             },
 
             //获取本章节内容
-            async getChapterContent (num=-1) {
+            async getChapterContent(num = -1) {
                 /**
                  * 从书架里进入不传章节 获取书架的缓存
                  */
-                if(this.chapterNo===0){
-                    if(num===-1){
-                        let shelf=this.getData({key:`book_shelf`})
-                        console.log('书架缓存',shelf)
-                        let book=shelf.find(x=>x.bookId===this.bookId)
-                        console.log('书架缓存 book',book)
-                        num=book.chapterNo
+                if (this.chapterNo === 0) {
+                    if (num === -1) {
+                        let shelf = uni.getStorageSync( `book_shelf`)
+                        console.log('书架缓存', shelf)
+                        let book = shelf.find(x => x.bookId === this.bookId)
+                        console.log('书架缓存 book', book)
+                        num = book.chapterNo
                     }
-                    this.chapterNo=num
+                    this.chapterNo = num
                 }
 
                 /**
                  * 获取标题
                  * 先临时这样 最终用左侧列表
                  */
-                this.GET(`/api/v1/book/${this.bookId}/chapter/${this.chapterNo}/title`,{}).then(d=>{
-                    console.log(`标题`,d)
+                this.GET(`/api/v1/book/${this.bookId}/chapter/${this.chapterNo}/title`, {}).then(d => {
+                    console.log(`标题`, d)
                     if (d.ok === 0) {
                         this.$api.msg(`标题获取失败 ${d.msg}`);
                     }
-                    this.chapterTitle=d.data.title
+                    this.chapterTitle = d.data.title
                     uni.setNavigationBarTitle({
-                        title:this.chapterTitle
+                        title: this.chapterTitle
                     })
                     // uni.setNavigationBarColor({
                     //     frontColor:`#000000`,
                     //     backgroundColor:this.$css.color_ebook
                     // })
 
-                }).catch(e=>{
+                }).catch(e => {
                     console.log(e)
                     this.$api.msg(`标题获取失败`)
                 })
@@ -272,37 +286,37 @@
                 /**
                  * 缓存里有无此书
                  */
-                let cache_book_content = this.getData({key: `book${this.bookId}chapter${this.chapterNo}`})
-                if(cache_book_content){
-                    this.content=cache_book_content
-                }else{
+                let cache_book_content = uni.getStorageSync( `book${this.bookId}chapter${this.chapterNo}`)
+                if (cache_book_content) {
+                    this.content = cache_book_content
+                } else {
                     this.showLoading()
-                    let d=await this.GET(`/api/v1/book/${this.bookId}/chapter/${this.chapterNo}/content`,{})
+                    let d = await this.GET(`/api/v1/book/${this.bookId}/chapter/${this.chapterNo}/content`, {})
 
-                    if(d.ok!==1 || !d.data || !d.data.content){
+                    if (d.ok !== 1 || !d.data || !d.data.content) {
                         this.$api.msg("获取章节内容失败")
                         return;
                     }
 
-                    let data=d.data.content
-                    this.content=data.replace(/<br>\r/g,'')
+                    let data = d.data.content
+                    this.content = data.replace(/<br>\r/g, '')
                     this.hideLoading()
 
-                    this.setData({
+                    uni.setStorage({
                         key: `book${this.bookId}chapter${this.chapterNo}`,
-                        data:this.content
-                    },false)
+                        data: this.content
+                    })
                 }
                 /**
                  * 更新阅读记录
                  */
-                this.PUT(`/api/v1/book/${this.bookId}/chapter/${this.chapterNo}`,{}).then(d=>{
+                this.PUT(`/api/v1/book/${this.bookId}/chapter/${this.chapterNo}`, {}).then(d => {
                     if (d.ok === 0) {
                         this.$api.msg(`同步阅读记录失败 ${d.msg}`)
                         return;
                     }
                     console.log('同步阅读记录成功')
-                }).catch(e=>{
+                }).catch(e => {
                     this.$api.msg('同步阅读记录失败')
                 })
 
@@ -314,7 +328,7 @@
 
 
             //设置菜单上一章下一章
-            chapterBtnHandler (btnType) {
+            chapterBtnHandler(btnType) {
                 console.log('chapterBtnHandler')
                 switch (btnType) {
                     case 'pre':
@@ -327,28 +341,28 @@
             },
 
             //屏幕点击
-            contentTapHandler (e) {
+            contentTapHandler(e) {
 
                 let x = e.detail.x;
                 let y = e.detail.y;
 
                 //上一页、设置、下一页三等分
-                let areaWith=Math.floor(this.screenWidth/3)
-                if(x<areaWith){
-                    if(this.toolShow || this.setShow){
+                let areaWith = Math.floor(this.screenWidth / 3)
+                if (x < areaWith) {
+                    if (this.toolShow || this.setShow) {
                         this.toolShow = false;
                         this.setShow = false;
-                    }else{
+                    } else {
                         console.log('上一页')
                     }
-                }else if(x>areaWith*2){
-                    if(this.toolShow || this.setShow){
+                } else if (x > areaWith * 2) {
+                    if (this.toolShow || this.setShow) {
                         this.toolShow = false;
                         this.setShow = false;
-                    }else{
+                    } else {
                         console.log('下一页')
                     }
-                }else{
+                } else {
                     this.toolShow = !this.toolShow;
                     this.setShow = false;
                 }
@@ -357,33 +371,33 @@
             /**
              * 目录点击章节跳转 start
              */
-            functionBtnHandler (type) {
+            functionBtnHandler(type) {
                 console.log('functionBtnHandler')
                 let that = this;
-                switch (type){
+                switch (type) {
                     case 'chapters':
                         this.toolShow = false;
-                        setTimeout(function() {
+                        setTimeout(function () {
                             that.sliderShow = true;
                         }, 0.7);
                         break;
                     case 'set':
                         this.toolShow = false;
-                        setTimeout(function() {
+                        setTimeout(function () {
                             that.setShow = true;
                         }, 0.7);
                         break;
                 }
             },
-            chapterItemHandler (index) {
-                console.log('chapterItemHandler',index)
+            chapterItemHandler(index) {
+                console.log('chapterItemHandler', index)
                 let chapter = this.chapterList[index];
                 this.$api.msg('章节ID:' + chapter.id);
             },
-            sliderHandler () {
+            sliderHandler() {
                 console.log('sliderHandler')
             },
-            maskHandler () {
+            maskHandler() {
                 console.log('maskHandler')
                 this.sliderShow = false;
             },
@@ -393,7 +407,7 @@
              */
 
             //主题变换按钮 点击事件
-            themeHandler (isNight) {
+            themeHandler(isNight) {
                 this.isNight = isNight;
                 if (isNight) {
                     // 夜间主题模式
@@ -427,8 +441,8 @@
             },
 
             //工具栏按钮点击
-            bottomBtnHandler (type) {
-                switch (type){
+            bottomBtnHandler(type) {
+                switch (type) {
                     case 'pre':
                         this.prePage()
                         break;
@@ -442,13 +456,13 @@
             },
 
             //设置里章节滑动条滑动
-            toolSliderChangeHandler (value) {
+            toolSliderChangeHandler(value) {
                 this.$api.msg('该功能暂未开放')
                 console.log('我获取的值为:' + value);
             },
 
             // 监听电子书滑动事件
-            scrollChange (e) {
+            scrollChange(e) {
                 let laterScrollTop = e.detail.scrollTop;
                 let ty = laterScrollTop - this.lastScrollY;
                 if (ty < 0) {
@@ -463,10 +477,10 @@
              * 电子书阅读页面监听
              * 字体变化
              */
-            fontSizeChangeHandler (fontSize) {
-                let setting=this.getData({key:`setting`})
-                setting.font.size=fontSize
-                this.setData({key:`setting`,data:setting})
+            fontSizeChangeHandler(fontSize) {
+                let setting = uni.getStorageSync(`setting`)
+                setting.font.size = fontSize
+                uni.setStorageSync(`setting`, setting)
                 this.fontSize = fontSize;
                 console.log('fontSize变化了:' + this.fontSize)
             },
@@ -475,7 +489,7 @@
              * 电子书阅读页面监听
              * 屏幕亮度变化
              */
-            brightChangeHandler (bright) {
+            brightChangeHandler(bright) {
                 let value = bright / 100;
                 uni.setScreenBrightness({
                     value: value,

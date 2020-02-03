@@ -14,7 +14,7 @@
             </view>
             <view v-for="(item,index) of list" :key="index" @tap="gotoItem(item)" class="item" >
 
-                <image :src="item.bookImage"  alt="" mode="widthFix" class="img" ></image>
+                <image :src="item.bookImage" class="img" ></image>
                 <view class="text">
                     <view class="title">
                         {{item.name}}
@@ -67,7 +67,7 @@
         .item{
             padding:20upx 0 0 0;position: relative;border-bottom: solid rgba(0, 0, 0, 0.05) 2upx;
             .img{
-                border-radius: 4upx;width: 100upx;padding-bottom: 10upx
+                border-radius: 4upx;width: 100upx;padding-bottom: 10upx;height: 142upx;
             }
             .text{
                 position: absolute;top:20upx;left:120upx;font-size: 30upx;color: #333;

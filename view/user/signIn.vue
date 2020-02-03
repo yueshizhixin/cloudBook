@@ -72,18 +72,13 @@
                     if (data.ok === 0) {
                         return;
                     }
-                    this.setData({
-                        key: 'user',
-                        data: data.data,
-                    })
+                    uni.setStorageSync('jwt',data.data)
                     this.navBack()
 
                 }).catch(e => {
                     console.log(e)
-
                     this.$api.msg(`操作失败`)
                     this.hideLoading()
-
                 })
             },
             read() {

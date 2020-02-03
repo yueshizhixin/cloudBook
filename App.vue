@@ -13,12 +13,11 @@
         },
         mounted() {
             console.log('App mounted')
-            let setting=this.getData({key:`setting`}) || {}
+            let setting=uni.getStorageSync(`setting`) || {}
             if(!setting.font){
                 setting.font = {size: 10}
-                this.setData({key:`setting`,data:setting})
+                uni.setStorageSync(`setting`, setting)
             }
-
         }
     }
 </script>
