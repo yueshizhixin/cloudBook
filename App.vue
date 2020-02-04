@@ -37,6 +37,10 @@
         width: 100%;
     }
 
+    .uni-input-placeholder{
+        color: #bbbbbb;
+    }
+
     /*根view*/
     .page-comm {
         background-color: $color-bg;
@@ -72,6 +76,7 @@
         padding-left: 0;
         padding-right: 0;
     }
+
 
 
 </style>

@@ -1,53 +1,43 @@
 <template>
-    <view class="page-comm bg-grey">
+    <view class="page-comm">
         <uni-nav-bar left-icon="back" @clickLeft="navBack()" :title="title">
         </uni-nav-bar>
 
-        <view class="container no-padding-top no-padding-side">
-            <view class="module" @tap="navTo(`no`)">
-                <view class="item">
-                    <view class="cuIcon-my icon"></view>
-                    <view class="text">个人资料</view>
-                    <view class="cuIcon-right icon-right"></view>
-                </view>
-                <view class="item">
-                    <view class="cuIcon-keyboard icon"></view>
-                    <view class="text">修改密码</view>
-                    <view class="cuIcon-right icon-right"></view>
-                </view>
-                <view class="item">
-                    <view class="cuIcon-phone icon"></view>
-                    <view class="text">手机绑定</view>
-                    <view class="cuIcon-right icon-right"></view>
-                    <view class="icon-right icon-right-no-first">13127043375</view>
+        <view class="container no-padding-top">
 
-                </view>
-                <view class="item">
-                    <view class="cuIcon-mail icon"></view>
-                    <view class="text">邮箱绑定</view>
-                    <view class="cuIcon-right icon-right"></view>
-                </view>
+            <view style="text-align: center;">
+                <image src="http://cdn.yueshizhixin.top/asset/head/v2-11d7989c38671a72967547a34c4e83e1_r.jpg?imageView2/1/w/300/h/300"
+                       style="width: 200upx;height: 200upx;border-radius: 50%;margin-top: 80upx;"
+                    @tap="navTo(`no`)"
+                ></image>
             </view>
 
-            <view class="module" @tap="navTo(`no`)">
-                <view class="item">
-                    <view class="cuIcon-down icon"></view>
-                    <view class="text">检查更新</view>
-                    <view class="cuIcon-right icon-right"></view>
-                    <view class="icon-right icon-right-no-first">v0.0.1</view>
-
+            <view style="color:#777;margin-top: 34upx;">
+                <view style="border-bottom: 2upx solid #e6e6e6;height: 82upx;padding-top:34upx;font-size: 34upx;">
+                    <view style="display: inline;">
+                        账号
+                    </view>
+                    <view style="display: inline;float: right;padding-left: 100upx;">
+                        asdf1asdfsadf
+                    </view>
                 </view>
-                <view class="item">
-                    <view class="cuIcon-close icon"></view>
-                    <view class="text">注销账号</view>
-                    <view class="cuIcon-right icon-right"></view>
+                <view style="border-bottom: 2upx solid #e6e6e6;height: 82upx;padding-top:34upx;font-size: 34upx;">
+                    <view style="display: inline;">
+                        昵称
+                    </view>
+                    <view style="display: inline;float: right;padding-right: 200upx;padding-top: 4upx;">
+                        <input style="display: inline;width: 400upx;color:#333;" maxlength="180" type="text" v-model="title">
+                    </view>
+                </view>
+                <view style="border-bottom: 2upx solid #e6e6e6;height: 82upx;padding-top:34upx;font-size: 34upx;">
+                    <view style="display: inline;">
+                        简介
+                    </view>
+                    <view style="display: inline;float: right;padding-right: 200upx;padding-top: 4upx;">
+                        <input style="display: inline;width: 400upx;color:#333;" maxlength="180" type="text" placeholder="一句话简短介绍">
+                    </view>
                 </view>
             </view>
-
-            <view class="module">
-                <view class="btn" @tap="signOut">我要退出</view>
-            </view>
-
         </view>
 
         <min-modal ref="modal"></min-modal>
@@ -65,7 +55,7 @@
         },
         data() {
             return {
-                title: '设置',
+                title: '个人资料',
             }
         },
         onLoad(p) {

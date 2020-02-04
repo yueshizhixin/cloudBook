@@ -34,13 +34,16 @@
                     "path": "book/detail",
                     "style": {}
                 },
-
                 {
                     "path": "user/signIn",
                     "style": {}
                 },
                 {
-                    "path": "user/setting",
+                    "path": "user/setting/setting",
+                    "style": {}
+                },
+                {
+                    "path": "user/setting/message",
                     "style": {}
                 }
             ]

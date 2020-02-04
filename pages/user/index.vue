@@ -6,7 +6,7 @@
         <view >
             <view class="bg">
                 <view class="icon">
-                    <view @tap="navTo(`/view/user/setting`)" class="cuIcon-settings"></view>
+                    <view @tap="navTo(`/view/user/setting/setting`)" class="cuIcon-settings"></view>
                 </view>
                 <view class="name" @tap="navTo(`no`)">
                     {{user.nickName}}
@@ -30,22 +30,31 @@
 	export default {
 		data() {
 			return {
-			    user:{}
+			    user:{
+			        id:0,
+                    nickName:``,
+                    headImg:``
+                },
 			}
 		},
         onLoad(p) {},
         onShow() {
             this.authCheck()
+            if (!this.user || !this.user.id) {
+                this.getMyMessage(false)
+            }
         },
         onReady() {
-            this.getMyMessage()
+            this.getMyMessage(false)
         },
         onPullDownRefresh() {
             this.getMyMessage()
         },
 		methods: {
-            getMyMessage() {
-                this.GET(`/api/v1/user/tag=me`, this.user).then(d => {
+            getMyMessage(http401=true) {
+                this.GET(`/api/v1/user/tag=me`,{},{
+                    http401: http401,
+                }).then(d => {
                     uni.stopPullDownRefresh();
                     console.log('我的信息', d)
                     if (d.ok === 0) {
