@@ -22,6 +22,9 @@ const method = {
     navToIndex() {
         method.navTo(`/pages/index/index`)
     },
+    navToUser() {
+        method.navTo(`/pages/user/index`)
+    },
     navToSign() {
         method.navTo(`/view/user/signIn`)
     },
@@ -178,6 +181,7 @@ const util = {
         Vue.prototype.navTo = method.navTo
         Vue.prototype.navBack = method.navBack
         Vue.prototype.navToIndex = method.navToIndex
+        Vue.prototype.navToUser = method.navToUser
         Vue.prototype.GET = method.GET
         Vue.prototype.POST = method.POST
         Vue.prototype.PUT = method.PUT

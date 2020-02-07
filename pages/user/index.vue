@@ -8,14 +8,14 @@
                 <view class="icon">
                     <view @tap="navTo(`/view/user/setting/setting`)" class="cuIcon-settings"></view>
                 </view>
-                <view class="name" @tap="navTo(`no`)">
+                <view class="name" @tap="navTo(`/view/user/setting/message`)">
                     {{user.nickName}}
                 </view>
-                <view class="tip" @tap="navTo(`no`)">
+                <view class="tip" @tap="navTo(`/view/user/setting/message`)">
                     趁生命气息逗留
                 </view>
                 <view class="img-container">
-                    <image @tap="navTo(`no`)" :src="user.headImg"
+                    <image @tap="navTo(`/view/user/setting/message`)" :src="user.headImg"
                         class="img"
                     >
                     </image>
@@ -43,6 +43,12 @@
             if (!this.user || !this.user.id) {
                 this.getMyMessage(false)
             }
+            let reload=uni.getStorageSync(`isNeedReload_user`) || 0
+            if(reload){
+                uni.setStorageSync(`isNeedReload_user`,0)
+                this.getMyMessage()
+            }
+
         },
         onReady() {
             this.getMyMessage(false)

@@ -5,57 +5,34 @@
 
         <view class="container no-padding-top min-height-wrap">
 
-            <view style="text-align: center;">
-                <image :src="user.headImg"
-                       style="width: 200upx;height: 200upx;border-radius: 50%;margin-top: 80upx;"
-                    @tap="navTo(`no`)"
-                ></image>
-            </view>
-
             <view style="margin-top: 34upx;" class="form">
                 <view class="item">
                     <view class="left">
-                        账号
-                    </view>
-                    <view class="right label">
-                        {{user.phone || user.email}}
-                    </view>
-                </view>
-                <view class="item">
-                    <view class="left">
-                        昵称
+                        原密码
                     </view>
                     <view class="right input">
-                        <input maxlength="180" type="text" v-model="user.nickName">
+                        <input v-model="opwd" maxlength="180" type="password" placeholder="请输入原密码">
                     </view>
                 </view>
                 <view class="item">
                     <view class="left">
-                        简介
+                        新密码
                     </view>
                     <view class="right input">
-                        <input maxlength="180" type="text" placeholder="一句话简短介绍">
+                        <input v-model="npwd1" maxlength="180" type="password" placeholder="请输入6-12位数字字母组合">
                     </view>
                 </view>
                 <view class="item">
                     <view class="left">
-                        性别
+                        新密码
                     </view>
-                    <view class="right label">
-                        暂不可设置
-                    </view>
-                </view>
-                <view class="item">
-                    <view class="left">
-                        出生日期
-                    </view>
-                    <view class="right label">
-                        暂不可设置
+                    <view class="right input">
+                        <input v-model="npwd2" maxlength="180" type="password" placeholder="请再次输入新密码">
                     </view>
                 </view>
             </view>
 
-            <view class="from-btn" @tap="updateMyMessage">
+            <view class="from-btn" @tap="updatePassword">
                 保 存
             </view>
 
@@ -76,8 +53,10 @@
         },
         data() {
             return {
-                title: '个人资料',
-                user: {},
+                title: '修改密码',
+                opwd:``,
+                npwd1:``,
+                npwd2:``,
             }
         },
         onLoad(p) {
@@ -89,20 +68,40 @@
         },
         methods: {
             //更新我的信息
-            updateMyMessage() {
-                let t=this
+            updatePassword() {
+                if (!this.$reg.pwd.test(this.opwd)) {
+                    this.$api.msg2('原密码')
+                    return;
+                }
+                if (!this.$reg.pwd.test(this.npwd1)) {
+                    this.$api.msg2('新密码')
+                    return;
+                }
+                if (this.npwd1 != this.npwd2) {
+                    this.$api.msg(`两次新密码不同`)
+                    return;
+                }
+                if (this.opwd == this.npwd1) {
+                    this.$api.msg(`新密码不能与老密码相同`)
+                    return;
+                }
+
+                let t=this;
                 this.$refs.modal.handleShow({success})
                 function success(d) {
                     if (d.id !== 1) return;
-                    t.PUT(`/api/v1/user/me`,t.user).then(d => {
+                    t.PUT(`/api/v1/user/me/pwd`,{
+                        oldPwd:t.opwd,
+                        newPwd:t.npwd1
+                    }).then(d => {
                         uni.stopPullDownRefresh();
                         console.log('我的信息', d)
                         if (d.ok === 0) {
                             t.$api.msg(d.msg);
                             return;
                         }
-                        uni.setStorageSync(`isNeedReload_user`, 1)
-                        t.navBack()
+                        t.signOut()
+                        t.navToUser()
                     }).catch(e => {
                         uni.stopPullDownRefresh();
                         console.log(e)

@@ -45,6 +45,10 @@
                 {
                     "path": "user/setting/message",
                     "style": {}
+                },
+                {
+                    "path": "user/setting/pwd",
+                    "style": {}
                 }
             ]
         }

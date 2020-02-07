@@ -10,7 +10,7 @@
                     <view class="text">个人资料</view>
                     <view class="cuIcon-right icon-right"></view>
                 </view>
-                <view class="item" @tap="navTo(`no`)">
+                <view class="item" @tap="navTo(`pwd`)">
                     <view class="cuIcon-keyboard icon"></view>
                     <view class="text">修改密码</view>
                     <view class="cuIcon-right icon-right"></view>
