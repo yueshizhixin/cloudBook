@@ -98,6 +98,11 @@
                     }
                     d.data.forEach(x=>{
                         x.bookImage=x.bookImageVertical
+                        if(x.tag){
+                            let tags=x.tag.split(',')
+                            let tag=tags.join(`·`)
+                            x.tag=tag.substring(1,tag.length-1)
+                        }
                     });
                     this.list.push(...d.data)
 

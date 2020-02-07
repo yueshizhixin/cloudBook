@@ -43,9 +43,13 @@
             if (!this.user || !this.user.id) {
                 this.getMyMessage(false)
             }
+            else{
+                console.log(false)
+            }
             let reload=uni.getStorageSync(`isNeedReload_user`) || 0
             if(reload){
                 uni.setStorageSync(`isNeedReload_user`,0)
+                this.user={}
                 this.getMyMessage()
             }
 

@@ -73,6 +73,7 @@
                         return;
                     }
                     uni.setStorageSync('jwt',data.data)
+                    uni.setStorageSync(`isNeedReload_user`,1)
                     this.navBack()
 
                 }).catch(e => {

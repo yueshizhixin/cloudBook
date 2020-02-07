@@ -20,7 +20,7 @@
                         {{item.name}}
                     </view>
                     <view class="tag" style="">
-                        作者·标签·字数
+                        {{item.author}}·{{item.tag}}·{{item.wordCount}}万字
                     </view>
                     <view class="desc" style="">
                         {{item.shortDescription}}
@@ -46,7 +46,7 @@
         },
         methods: {
             gotoItem(item) {
-                this.navTo(`/view/book/detail`)
+                this.navTo(`/view/book/detail?bookId=${item.id}`)
             }
         }
     }
