@@ -14,7 +14,7 @@
             </view>
             <view v-for="(item,index) of list" :key="index" @tap="gotoItem(item)" class="item" >
 
-                <image :src="item.bookImage" class="img" ></image>
+                <image lazy-load="true" :src="item.bookImage" class="img" ></image>
                 <view class="text">
                     <view class="title">
                         {{item.name}}

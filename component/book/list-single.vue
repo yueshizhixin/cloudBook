@@ -1,7 +1,7 @@
 <template>
     <view>
         <view v-for="(item,index) of list" :key="index" @tap="gotoItem(item)" class="book2">
-            <image :src="item.bookImage" alt="" mode="widthFix" class="book-image"></image>
+            <image lazy-load="true" :src="item.bookImage" alt="" mode="widthFix" class="book-image"></image>
             <view class="desc">
                 <view class="desc-container">
                     <image :src="item.bookAuthorImage" mode="widthFix" class="author-img"></image>

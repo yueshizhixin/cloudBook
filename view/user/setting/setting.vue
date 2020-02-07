@@ -15,14 +15,14 @@
                     <view class="text">修改密码</view>
                     <view class="cuIcon-right icon-right"></view>
                 </view>
-                <view class="item" @tap="navTo(`no`)">
+                <view class="item" @tap="navTo(`no`)" style="color:#aeaeae;">
                     <view class="cuIcon-phone icon"></view>
                     <view class="text">手机绑定</view>
                     <view class="cuIcon-right icon-right"></view>
                     <view class="icon-right icon-right-no-first">13127043375</view>
 
                 </view>
-                <view class="item" @tap="navTo(`no`)">
+                <view class="item" @tap="navTo(`no`)" style="color:#aeaeae;">
                     <view class="cuIcon-mail icon"></view>
                     <view class="text">邮箱绑定</view>
                     <view class="cuIcon-right icon-right"></view>
@@ -30,14 +30,14 @@
             </view>
 
             <view class="module" >
-                <view class="item" @tap="navTo(`no`)">
+                <view class="item" @tap="navTo(`no`)" style="color:#aeaeae;">
                     <view class="cuIcon-down icon"></view>
                     <view class="text">检查更新</view>
                     <view class="cuIcon-right icon-right"></view>
                     <view class="icon-right icon-right-no-first">v0.0.1</view>
 
                 </view>
-                <view class="item" @tap="navTo(`no`)">
+                <view class="item" @tap="navTo(`no`)" style="color:#aeaeae;">
                     <view class="cuIcon-close icon"></view>
                     <view class="text">注销账号</view>
                     <view class="cuIcon-right icon-right"></view>

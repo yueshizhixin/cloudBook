@@ -71,7 +71,7 @@
                 }).catch(e => {
                     uni.stopPullDownRefresh();
                     console.log(e)
-                    this.$api.msg(`操作失败`)
+                    this.$api.msg(e.msg || `操作失败`)
                 })
             },
 		}

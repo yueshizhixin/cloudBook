@@ -102,8 +102,8 @@
                     http401: false,
                 }).then(d => {
                     console.log(d)
-                    this.page.loading = 0
                     uni.stopPullDownRefresh();
+                    this.page.loading = 0
 
                     if (d.code === 401) {
                         this.$api.msg(d.msg);

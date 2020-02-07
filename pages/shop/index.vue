@@ -90,19 +90,24 @@
                 this.page.loading=1
                 this.GET(`/api/v1/book/shop`, this.page).then(d => {
                     console.log(d)
+                    uni.stopPullDownRefresh();
+                    this.page.loading=0
+                    if (d.code !== 200 || d.ok === 0) {
+                        this.$api.msg(d.msg);
+                        return;
+                    }
                     d.data.forEach(x=>{
                         x.bookImage=x.bookImageVertical
-                    })
+                    });
                     this.list.push(...d.data)
 
                     if(d.data.length<this.page.limit){
                         this.page.loadable=0
                     }
                     this.page.offset++
-                    this.page.loading=0
                     this.page.loaded=1
-                    uni.stopPullDownRefresh();
                 }).catch(e => {
+                    this.$api.msg(e.msg || `操作失败`)
                     console.log(e)
                     this.page.loading=0
                     uni.stopPullDownRefresh();

@@ -90,6 +90,7 @@ const method = {
         let header = {
             "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
             "authorization": jwt,
+            "clientVersion":conf.clientVersion
         }
         let ar = autoRedirect
         if (!ar) {

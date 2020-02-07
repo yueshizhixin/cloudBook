@@ -105,7 +105,7 @@
                     }).catch(e => {
                         uni.stopPullDownRefresh();
                         console.log(e)
-                        t.$api.msg(`操作失败`)
+                        t.$api.msg(e.msg || `操作失败`)
                     })
                 }
             },
@@ -122,7 +122,7 @@
                 }).catch(e => {
                     uni.stopPullDownRefresh();
                     console.log(e)
-                    this.$api.msg(`操作失败`)
+                    this.$api.msg(e.msg || `操作失败`)
                 })
             },
         }

@@ -279,9 +279,8 @@
 
                 }).catch(e => {
                     console.log(e)
-                    this.$api.msg(`标题获取失败`)
+                    this.$api.msg(e.msg || `标题获取失败`)
                 })
-
 
                 /**
                  * 缓存里有无此书
@@ -317,7 +316,7 @@
                     }
                     console.log('同步阅读记录成功')
                 }).catch(e => {
-                    this.$api.msg('同步阅读记录失败')
+                    this.$api.msg(e.msg || '同步阅读记录失败')
                 })
 
                 this.calcTextArr()
